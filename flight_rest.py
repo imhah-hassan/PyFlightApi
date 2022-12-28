@@ -11,8 +11,11 @@ from dateutil.relativedelta import relativedelta
 
 import requests
 import urllib.parse
+import jwt
+from functools import wraps
 
 app = flask.Flask(__name__)
+app.config['SECRET_KEY']='Th1s1ss3cr3t'
 
 logging.config.fileConfig('logging.conf')
 print ("FlightsApp Rest Api")
@@ -28,6 +31,48 @@ def home():
 http://localhost:{0}/Flights/?DepartureCity=Paris&ArrivalCity=London&Date=2021-09-03
 </p>
 '''.format (str(config.port))
+
+
+# Authentication decorator
+def token_required(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        db = flights_db.sqlite_db()
+        token = None
+        # ensure the jwt-token is passed with the headers
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        if not token: # throw error if no token provided
+            return make_response(jsonify({"message": "A valid token is missing!"}), 401)
+        try:
+           # decode the token to obtain user public_id
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            current_user = db.get_user_by_id(data['public_id'])[0]
+        except:
+            return make_response(jsonify({"message": "Invalid token!"}), 401)
+         # Return the user information attached to the token
+        return f(current_user, *args, **kwargs)
+    return decorator
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+    db = flights_db.sqlite_db()
+    auth = request.authorization
+
+    if not auth or not auth.username or not auth.password:
+        return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
+
+    user = db.get_user(auth.username)[0]
+
+    if user.password == auth.password:
+        token = jwt.encode(
+            {'public_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+            app.config['SECRET_KEY'])
+        return jsonify({'token': token})
+
+    return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
+
 
 #   GET http://localhost:5000/Cities?CityName=Paris
 @app.route('/Cities', methods=['GET'])
@@ -48,12 +93,17 @@ def GetCities():
 #     "CityName":"Casablanca"
 # }
 @app.route('/Cities', methods=['POST'])
-def CreateCity():
-    db = flights_db.sqlite_db()
-    if (request.is_json):
-        data = request.get_json()
-        city = db.create_city(data['CityInitials'], data['CityName'])
-    json_string = json.dumps(city.__dict__)
+@token_required
+def CreateCity(user):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        if (request.is_json):
+            data = request.get_json()
+            city = db.create_city(data['CityInitials'], data['CityName'])
+        json_string = json.dumps(city.__dict__)
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
+
     response = make_response(json_string,201,)
     response.headers["Content-Type"] = "application/json"
     return response
@@ -61,17 +111,22 @@ def CreateCity():
 #  PATCH http://localhost:5000/Cities/CMN
 #   {"TicketPrice":185.2}
 @app.route('/Cities/<CityInitials>', methods=['PATCH'])
-def UpdateCity(CityInitials):
-    db = flights_db.sqlite_db()
-    upd_city = db.get_city(CityInitials)
-    if len(upd_city)==0:
-        json_string = {"false": "City not found  {0} ".format(CityInitials)}
-    elif (request.is_json):
-        data = request.get_json()
-        new_city_initials = data['CityInitials']
-        new_city_name = data['CityName']
-        upd_city = db.update_city(CityInitials, new_city_initials, new_city_name)
-        json_string = json.dumps(upd_city.__dict__)
+@token_required
+def UpdateCity(user, CityInitials):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        upd_city = db.get_city(CityInitials)
+        if len(upd_city)==0:
+            json_string = {"false": "City not found  {0} ".format(CityInitials)}
+        elif (request.is_json):
+            data = request.get_json()
+            new_city_initials = data['CityInitials']
+            new_city_name = data['CityName']
+            upd_city = db.update_city(CityInitials, new_city_initials, new_city_name)
+            json_string = json.dumps(upd_city.__dict__)
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
+
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
     return response
@@ -79,15 +134,19 @@ def UpdateCity(CityInitials):
 
 # DELETE  http://localhost:5000/Cities/Casablanca
 @app.route('/Cities/<CityInitials>', methods=['DELETE'])
-def DeleteCity(CityInitials):
-    db = flights_db.sqlite_db()
-    rows = db.delete_city(CityInitials)
-    if (rows==1):
-        json_string = {"true": "City deleted {0} ".format(CityInitials)}
-    elif rows==0:
-        json_string = {"false": "City not found  {0} ".format(CityInitials)}
-    elif rows==-1:
-        json_string = {"false": "Flight exists from or to this city  {0} ".format(CityInitials)}
+@token_required
+def DeleteCity(user, CityInitials):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        rows = db.delete_city(CityInitials)
+        if (rows==1):
+            json_string = {"true": "City deleted {0} ".format(CityInitials)}
+        elif rows==0:
+            json_string = {"false": "City not found  {0} ".format(CityInitials)}
+        elif rows==-1:
+            json_string = {"false": "Flight exists from or to this city  {0} ".format(CityInitials)}
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
 
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
@@ -157,18 +216,23 @@ def GetFlightByNumber(flight_number):
 #  PATCH http://localhost:5000/Flights/16939
 #   {"TicketPrice":185.2}
 @app.route('/Flights/<flight_number>', methods=['PATCH'])
-def UpdateFlightPrice(flight_number):
-    db = flights_db.sqlite_db()
-    upd_fligth = db.get_flight(flight_number)
-    if upd_fligth == -1:
-        response = make_response({"error":"Unkown flight"}, 200, )
-        response.headers["Content-Type"] = "application/json"
-        return response
+@token_required
+def UpdateFlightPrice(user, flight_number):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        upd_fligth = db.get_flight(flight_number)
+        if upd_fligth == -1:
+            response = make_response({"error":"Unkown flight"}, 200, )
+            response.headers["Content-Type"] = "application/json"
+            return response
 
-    if (request.is_json):
-        data = request.get_json()
-        upd_fligth = db.update_flight_price(flight_number, data)
-    json_string = json.dumps(upd_fligth.__dict__)
+        if (request.is_json):
+            data = request.get_json()
+            upd_fligth = db.update_flight_price(flight_number, data)
+        json_string = json.dumps(upd_fligth.__dict__)
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
+
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
     return response
@@ -176,29 +240,37 @@ def UpdateFlightPrice(flight_number):
 # POST  http://localhost:5000/Flights
 #   {"Airline":"AF", "ArrivalCity":"Casablanca", "ArrivalTime":"10:30 AM", "DepartureCity":"Paris", "DepartureTime":"08:00 AM", "FlightNumber":99558, "Price":185.2, "DayOfWeek":"Monday"}
 @app.route('/Flights', methods=['POST'])
-def CreateFlight():
-    db = flights_db.sqlite_db()
-    if (request.is_json):
-        data = request.get_json()
-        flt_number = db.create_flight(data)
-        if flt_number>0:
-            flt = db.get_flight(flt_number)
-        else:
-            flt = {"error":"Error creating flight"}
-    json_string = json.dumps(flt.__dict__)
+@token_required
+def CreateFlight(user):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        if (request.is_json):
+            data = request.get_json()
+            flt_number = db.create_flight(data)
+            if flt_number>0:
+                flt = db.get_flight(flt_number)
+            else:
+                flt = {"error":"Error creating flight"}
+        json_string = json.dumps(flt.__dict__)
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
     response = make_response(json_string,201,)
     response.headers["Content-Type"] = "application/json"
     return response
 
 # DELETE  http://localhost:5000/Flights/12654
 @app.route('/Flights/<FlightNumber>', methods=['DELETE'])
-def DeleteFlight(FlightNumber):
-    db = flights_db.sqlite_db()
-    rows = db.delete_flight(FlightNumber)
-    if (rows==1):
-        json_string = {"true": "Flight deleted {0} ".format(FlightNumber)}
-    elif rows==0:
-        json_string = {"false": "FlightNumber not found  {0} ".format(FlightNumber)}
+@token_required
+def DeleteFlight(user, FlightNumber):
+    if user.profil == 'Admin':
+        db = flights_db.sqlite_db()
+        rows = db.delete_flight(FlightNumber)
+        if (rows==1):
+            json_string = {"true": "Flight deleted {0} ".format(FlightNumber)}
+        elif rows==0:
+            json_string = {"false": "FlightNumber not found  {0} ".format(FlightNumber)}
+    else:
+        json_string = {"false": "Admin profil needed to delete city "}
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
     return response

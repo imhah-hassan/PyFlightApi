@@ -16,6 +16,14 @@ from os.path import abspath
 
 logger = logging.getLogger(__name__)
 
+class User(ComplexModel):
+   __namespace__ = 'User'
+   username = String
+   password = String
+   id = String
+   name = String
+   profil = String
+
 class Flight(ComplexModel):
     __namespace__ = 'Flight'
     Airline = String
@@ -103,6 +111,46 @@ class   sqlite_db ():
         if (departure_time.split(' ')[1] == 'PM'):
             hour = str(int(hour) + 12)
         return (date_parts[0] + '-' + str(int(date_parts[1])) + '-' +  str(int(date_parts[2])) + ' ' +  str(hour) +':' +  time_parts[1])
+
+    #
+    # Users
+    #
+    def get_user (self, user_name):
+        users = []
+        sql = "SELECT ID, username, Name, Password, Profil FROM Users WHERE username = '"+ user_name + "';"
+        logging.info ('get_user %s', user_name)
+        logging.info (sql)
+        with self.con:
+            cur = self.con.cursor()
+            res = cur.execute(sql)
+            for r in res:
+                user = User ()
+                user.id = r[0]
+                user.username = r[1]
+                user.name = r[2]
+                user.password = r[3]
+                user.profil = r[4]
+                users.append(user)
+        return (users)
+
+    def get_user_by_id (self, id):
+        users = []
+        sql = "SELECT ID, username, Name, Password, Profil FROM Users WHERE ID = '"+ id + "';"
+        logging.info ('get_user_by_id %s', id)
+        logging.info (sql)
+        with self.con:
+            cur = self.con.cursor()
+            res = cur.execute(sql)
+            for r in res:
+                user = User ()
+                user.id = r[0]
+                user.username = r[1]
+                user.name = r[2]
+                user.password = r[3]
+                user.profil = r[4]
+                users.append(user)
+        return (users)
+
     #
     # Cities
     #
