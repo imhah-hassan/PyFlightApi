@@ -1,0 +1,649 @@
+---
+openapi: 3.0.0
+info:
+  title: FlightApi
+  version: Dec22
+servers:
+- url: http://localhost:5000/flights_api/v1/resources
+tags:
+- name: City
+- name: Flight
+- name: Order
+paths:
+  /Cities:
+    get:
+      tags:
+      - City
+      summary: GetCities
+      responses:
+        "200":
+          description: List of cities
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+              - CityInitials: SFO
+                CityName: San Francisco
+              - CityInitials: SEA
+                CityName: Seattle
+              - CityInitials: DEN
+                CityName: Denver
+              - CityInitials: FRA
+                CityName: Frankfurt
+              - CityInitials: LON
+                CityName: London
+              - CityInitials: LAX
+                CityName: Los Angeles
+              - CityInitials: PAR
+                CityName: Paris
+              - CityInitials: POR
+                CityName: Portland
+              - CityInitials: SYD
+                CityName: Sydney
+              - CityInitials: ZRH
+                CityName: Zurich
+    post:
+      tags:
+      - City
+      summary: AddCity
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: |-
+                "{\"CityInitials\":\"CMN\",
+                 \"CityName\":\"Casablanca\"}"
+      responses:
+        "201":
+          description: City informations initials and name
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
+  /Cities/{CityInitials}:
+    delete:
+      tags:
+      - City
+      summary: DeleteCity
+      parameters:
+      - name: CityInitials
+        in: path
+        description: City Initials
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: CMN
+      responses:
+        "200":
+          description: OK or City not found or Flights exists from or to city
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                "true": 'City deleted CMN '
+    patch:
+      tags:
+      - City
+      summary: UpdateCity
+      parameters:
+      - name: CityInitials
+        in: path
+        description: City initials
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: CMN
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: '"{"CityInitials\":\"CMN\",   \"CityName\":\"Casablanca\"}"'
+      responses:
+        "200":
+          description: city informations updated
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
+  /Flights:
+    get:
+      tags:
+      - Order
+      summary: SearchFlights
+      parameters:
+      - name: DepartureCity
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Paris
+      - name: ArrivalCity
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: Casablanca
+      - name: Date
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: 2023-01-02
+      responses:
+        "500":
+          description: INTERNAL SERVER ERROR
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: text/html; charset=utf-8
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: <!doctype html><html lang=en><title>500 Internal Server Error</title><h1>Internal Server Error</h1><p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+    post:
+      tags:
+      - Flight
+      summary: AddFlight
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: '"{\"Airline\": \"RAM\",\"ArrivalCity\": \"Paris\",\"ArrivalInitials\": \"PAR\",\r\n    \"ArrivalTime\": \"11:00 AM\",\"DepartureCity\": \"Casablanca\",\"DepartureInitials\": \"CMN\",\r\n    \"DepartureTime\": \"08:00 AM\",\"Price\": 112.0,\r\n    \"PriceFirst\": 126.0,\"PriceBusiness\": 150.0,\r\n    \"SeatsAvailable\": 100,\"DayOfWeek\": \"Monday\"\r\n}"'
+      responses:
+        "201":
+          description: CREATED
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Airline: RAM
+                ArrivalCity: Paris
+                ArrivalTime: 11:00 AM
+                DepartureCity: Casablanca
+                DepartureTime: 08:00 AM
+                FlightNumber: 100000
+                Price: 112
+                PriceFirst: 126
+                PriceBusiness: 150
+                SeatsAvailable: 100
+                DayOfWeek: Monday
+  /RandomFlights:
+    get:
+      tags:
+      - Flight
+      summary: RandomFlights
+      parameters:
+      - name: Count
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: "2"
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+              - Airline: NW
+                ArrivalCity: London
+                ArrivalTime: 05:31 PM
+                DepartureCity: Paris
+                DepartureTime: 03:50 PM
+                FlightNumber: 11120
+                Price: 147.4
+                PriceFirst: 176.88
+                PriceBusiness: 191.62
+                SeatsAvailable: 250
+                DayOfWeek: Friday
+                Date: 2023-02-10
+              - Airline: LH
+                ArrivalCity: Zurich
+                ArrivalTime: 03:21 PM
+                DepartureCity: San Francisco
+                DepartureTime: 02:23 PM
+                FlightNumber: 14468
+                Price: 167.8
+                PriceFirst: 201.36
+                PriceBusiness: 218.14
+                SeatsAvailable: 250
+                DayOfWeek: Sunday
+                Date: 2023-01-29
+  /Flights/{FlightNumber}:
+    get:
+      tags:
+      - Flight
+      summary: GetFlight
+      parameters:
+      - name: FlightNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Airline: NW
+                ArrivalCity: London
+                ArrivalTime: 05:31 PM
+                DepartureCity: Paris
+                DepartureTime: 03:50 PM
+                FlightNumber: 11120
+                Price: 147.4
+                PriceFirst: 176.88
+                PriceBusiness: 191.62
+                SeatsAvailable: 250
+                DayOfWeek: Friday
+    delete:
+      tags:
+      - Flight
+      summary: DeleteFlight
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      - name: FlightNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                "true": 'Flight deleted 100000 '
+    patch:
+      tags:
+      - Flight
+      summary: UpdateFlightPrice
+      parameters:
+      - name: FlightNumber
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: '"{\"Price\": {{Price}},\"PriceFirst\": {{PriceFirst}},\"PriceBusiness\": {{PriceBusiness}}\r\n}"'
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Airline: RAM
+                ArrivalCity: Paris
+                ArrivalTime: 11:00 AM
+                DepartureCity: Casablance
+                DepartureTime: 08:00 AM
+                FlightNumber: 20001
+                Price: 122
+                PriceFirst: 136
+                PriceBusiness: 160
+                SeatsAvailable: 250
+                DayOfWeek: Monday
+  /FlightOrders:
+    post:
+      tags:
+      - Order
+      summary: BookFight
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: '{"DepartureDate":"{{Date}}","FlightNumber": {{tmpNumeroDeVol}},"CustomerName": "IMHAH","NumberOfTickets": 2,"Class": "First"}'
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                OrderNumber: 81
+                TotalPrice: 370.4
+    delete:
+      tags:
+      - Order
+      summary: DeleteAllOrders
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+              - Class: Business
+                CustomerName: John Doe
+                DepartureDate: 2014-7-11 7:59
+                FlightNumber: 6232
+                NumberOfTickets: 1
+                OrderNumber: 1
+                TotalPrice: 135.2
+              - Class: First
+                CustomerName: Fred Smith
+                DepartureDate: 2014-7-12 7:59
+                FlightNumber: 4295
+                NumberOfTickets: 3
+                OrderNumber: 2
+                TotalPrice: 1165.68
+              - Class: Economy
+                CustomerName: Mary Parker
+                DepartureDate: 2014-7-13 7:59
+                FlightNumber: 4194
+                NumberOfTickets: 5
+                OrderNumber: 3
+                TotalPrice: 803
+              - Class: First
+                CustomerName: Jon Baker
+                DepartureDate: 2014-7-14 7:59
+                FlightNumber: 4219
+                NumberOfTickets: 4
+                OrderNumber: 4
+                TotalPrice: 776.16
+              - Class: Business
+                CustomerName: Kim Smith
+                DepartureDate: 2014-7-15 19:59
+                FlightNumber: 6195
+                NumberOfTickets: 6
+                OrderNumber: 5
+                TotalPrice: 1376.46
+              - Class: First
+                CustomerName: Joe Shmoe
+                DepartureDate: 2014-7-16 19:59
+                FlightNumber: 4210
+                NumberOfTickets: 1
+                OrderNumber: 6
+                TotalPrice: 202.44
+              - Class: Business
+                CustomerName: Jane Doe
+                DepartureDate: 2014-7-17 19:59
+                FlightNumber: 3291
+                NumberOfTickets: 9
+                OrderNumber: 7
+                TotalPrice: 1175.85
+              - Class: First
+                CustomerName: Bob Johnson
+                DepartureDate: 2014-7-18 19:59
+                FlightNumber: 6218
+                NumberOfTickets: 2
+                OrderNumber: 8
+                TotalPrice: 425.92
+              - Class: Business
+                CustomerName: Jack Barnes
+                DepartureDate: 2014-7-19 19:59
+                FlightNumber: 6232
+                NumberOfTickets: 1
+                OrderNumber: 9
+                TotalPrice: 135.2
+              - Class: Economy
+                CustomerName: Jane Hansen
+                DepartureDate: 2014-7-20 19:59
+                FlightNumber: 4214
+                NumberOfTickets: 2
+                OrderNumber: 10
+                TotalPrice: 321.6
+  /FlightOrders/{Ordre}:
+    delete:
+      tags:
+      - Order
+      summary: DeleteOrder
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      - name: Ordre
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                "true": 'Order deleted 81 '
+    patch:
+      tags:
+      - Order
+      summary: UpdateOrder
+      parameters:
+      - name: Content-Type
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: application/json
+      - name: Ordre
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: '{"DepartureDate":"{{Date}}","FlightNumber": {{tmpNumeroDeVol}},"CustomerName": "IMHAH","NumberOfTickets": {{Places}},"Class": "{{Classe}}"}'
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Type:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Class: First
+                CustomerName: IMHAH
+                DepartureDate: 2023-1-21 08:00
+                FlightNumber: 99558
+                NumberOfTickets: 3
+                OrderNumber: 81
+                TotalPrice: 666.72
+components: {}
