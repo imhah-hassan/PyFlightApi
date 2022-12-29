@@ -15,7 +15,7 @@ import jwt
 from functools import wraps
 
 app = flask.Flask(__name__)
-app.config['SECRET_KEY']='Th1s1ss3cr3t'
+app.config['SECRET_KEY']='XBhbnJM8IaQwaWVVv9RK'
 
 logging.config.fileConfig('logging.conf')
 print ("FlightsApp Rest Api")
@@ -40,8 +40,9 @@ def token_required(f):
         db = flights_db.sqlite_db()
         token = None
         # ensure the jwt-token is passed with the headers
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
+        if 'Authorization' in request.headers:
+            token = str(request.headers['Authorization'])
+            token = token.replace(' ', '').replace('Bearer:', '')
         if not token: # throw error if no token provided
             return make_response(jsonify({"message": "A valid token is missing!"}), 401)
         try:
@@ -218,20 +219,18 @@ def GetFlightByNumber(flight_number):
 @app.route('/Flights/<flight_number>', methods=['PATCH'])
 @token_required
 def UpdateFlightPrice(user, flight_number):
-    if user.profil == 'Admin':
-        db = flights_db.sqlite_db()
-        upd_fligth = db.get_flight(flight_number)
-        if upd_fligth == -1:
-            response = make_response({"error":"Unkown flight"}, 200, )
-            response.headers["Content-Type"] = "application/json"
-            return response
+    db = flights_db.sqlite_db()
+    upd_fligth = db.get_flight(flight_number)
+    if upd_fligth == -1:
+        response = make_response({"error":"Unkown flight"}, 200, )
+        response.headers["Content-Type"] = "application/json"
+        return response
 
-        if (request.is_json):
-            data = request.get_json()
-            upd_fligth = db.update_flight_price(flight_number, data)
+    json_string = ""
+    if (request.is_json):
+        data = request.get_json()
+        upd_fligth = db.update_flight_price(flight_number, data)
         json_string = json.dumps(upd_fligth.__dict__)
-    else:
-        json_string = {"false": "Admin profil needed to delete city "}
 
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
