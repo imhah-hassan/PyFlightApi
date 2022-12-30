@@ -62,12 +62,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:5000/login",
-							"protocol": "http",
+							"raw": "{{endpoint}}/login",
 							"host": [
-								"localhost"
+								"{{endpoint}}"
 							],
-							"port": "5000",
 							"path": [
 								"login"
 							]
