@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "fe663e23-4123-48bc-9118-1f923d6bbf92",
+		"name": "FlightApiMockCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetFlight",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights/10535",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights",
+						"10535"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "10487",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Flights/10487",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights",
+								"10487"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.11.1"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Dec 2022 11:47:58 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "258"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Airline\": \"AF\",\n    \"ArrivalCity\": \"London\",\n    \"ArrivalTime\": \"10:30 AM\",\n    \"DepartureCity\": \"Paris\",\n    \"DepartureTime\": \"08:00 AM\",\n    \"FlightNumber\": 10487,\n    \"Price\": 107.47,\n    \"PriceFirst\": 128.96,\n    \"PriceBusiness\": 139.71,\n    \"SeatsAvailable\": 250,\n    \"DayOfWeek\": \"Tuesday\"\n}"
+				},
+				{
+					"name": "10535",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Flights/10535",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights",
+								"10535"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.11.1"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Dec 2022 11:52:42 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "257"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Airline\": \"AF\",\n    \"ArrivalCity\": \"London\",\n    \"ArrivalTime\": \"10:30 AM\",\n    \"DepartureCity\": \"Paris\",\n    \"DepartureTime\": \"08:00 AM\",\n    \"FlightNumber\": 10535,\n    \"Price\": 155.47,\n    \"PriceFirst\": 186.56,\n    \"PriceBusiness\": 202.11,\n    \"SeatsAvailable\": 250,\n    \"DayOfWeek\": \"Friday\"\n}"
+				}
+			]
+		},
+		{
+			"name": "SearchFligths",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=Denver&Date=2022-12-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Paris"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "Denver"
+						},
+						{
+							"key": "Date",
+							"value": "2022-12-30"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Flights1",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2022-12-30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights"
+							],
+							"query": [
+								{
+									"key": "DepartureCity",
+									"value": "Paris"
+								},
+								{
+									"key": "ArrivalCity",
+									"value": "London"
+								},
+								{
+									"key": "Date",
+									"value": "2022-12-30"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.11.1"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Dec 2022 11:51:17 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2067"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"10:30 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"08:00 AM\",\n        \"FlightNumber\": 10535,\n        \"Price\": 155.47,\n        \"PriceFirst\": 186.56,\n        \"PriceBusiness\": 202.11,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"11:24 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"10:24 AM\",\n        \"FlightNumber\": 10538,\n        \"Price\": 158.47,\n        \"PriceFirst\": 190.16,\n        \"PriceBusiness\": 206.01,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"12:54 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"10:24 AM\",\n        \"FlightNumber\": 10539,\n        \"Price\": 159.47,\n        \"PriceFirst\": 191.36,\n        \"PriceBusiness\": 207.31,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"03:18 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"12:48 PM\",\n        \"FlightNumber\": 10543,\n        \"Price\": 163.47,\n        \"PriceFirst\": 196.16,\n        \"PriceBusiness\": 212.51,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"05:42 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"03:12 PM\",\n        \"FlightNumber\": 10547,\n        \"Price\": 167.47,\n        \"PriceFirst\": 200.96,\n        \"PriceBusiness\": 217.71,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"05:31 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"03:50 PM\",\n        \"FlightNumber\": 11120,\n        \"Price\": 147.4,\n        \"PriceFirst\": 176.88,\n        \"PriceBusiness\": 191.62,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"11:31 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"09:50 AM\",\n        \"FlightNumber\": 11774,\n        \"Price\": 152.6,\n        \"PriceFirst\": 183.12,\n        \"PriceBusiness\": 198.38,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"London\",\n        \"ArrivalTime\": \"07:55 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"06:14 PM\",\n        \"FlightNumber\": 13119,\n        \"Price\": 177,\n        \"PriceFirst\": 212.4,\n        \"PriceBusiness\": 230.1,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    }\n]"
+				},
+				{
+					"name": "Fligths2",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=Denver&Date=2022-12-30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights"
+							],
+							"query": [
+								{
+									"key": "DepartureCity",
+									"value": "Paris"
+								},
+								{
+									"key": "ArrivalCity",
+									"value": "Denver"
+								},
+								{
+									"key": "Date",
+									"value": "2022-12-30"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.11.1"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Dec 2022 11:54:44 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2067"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"10:30 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"08:00 AM\",\n        \"FlightNumber\": 17121,\n        \"Price\": 155.47,\n        \"PriceFirst\": 186.56,\n        \"PriceBusiness\": 202.11,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"11:24 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"10:24 AM\",\n        \"FlightNumber\": 17124,\n        \"Price\": 158.47,\n        \"PriceFirst\": 190.16,\n        \"PriceBusiness\": 206.01,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"12:54 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"10:24 AM\",\n        \"FlightNumber\": 17125,\n        \"Price\": 159.47,\n        \"PriceFirst\": 191.36,\n        \"PriceBusiness\": 207.31,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"03:18 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"12:48 PM\",\n        \"FlightNumber\": 17129,\n        \"Price\": 163.47,\n        \"PriceFirst\": 196.16,\n        \"PriceBusiness\": 212.51,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"AF\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"05:42 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"03:12 PM\",\n        \"FlightNumber\": 17133,\n        \"Price\": 167.47,\n        \"PriceFirst\": 200.96,\n        \"PriceBusiness\": 217.71,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"05:31 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"03:50 PM\",\n        \"FlightNumber\": 17706,\n        \"Price\": 147.4,\n        \"PriceFirst\": 176.88,\n        \"PriceBusiness\": 191.62,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"11:31 AM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"09:50 AM\",\n        \"FlightNumber\": 18360,\n        \"Price\": 152.6,\n        \"PriceFirst\": 183.12,\n        \"PriceBusiness\": 198.38,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    },\n    {\n        \"Airline\": \"NW\",\n        \"ArrivalCity\": \"Denver\",\n        \"ArrivalTime\": \"07:55 PM\",\n        \"DepartureCity\": \"Paris\",\n        \"DepartureTime\": \"06:14 PM\",\n        \"FlightNumber\": 19705,\n        \"Price\": 177,\n        \"PriceFirst\": 212.4,\n        \"PriceBusiness\": 230.1,\n        \"SeatsAvailable\": 250,\n        \"DayOfWeek\": \"Friday\"\n    }\n]"
+				}
+			]
+		}
+	]
+}

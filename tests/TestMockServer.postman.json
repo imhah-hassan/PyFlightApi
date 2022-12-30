@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "c9d260a0-7856-418d-a427-5bb083eaf4c3",
+		"name": "TestMockServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "Flights_10535",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Flights/10535",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Flights",
+						"10535"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlightsList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2022-12-30",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Paris"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "London"
+						},
+						{
+							"key": "Date",
+							"value": "2022-12-30"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

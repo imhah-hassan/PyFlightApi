@@ -1,17 +1,22 @@
 openapi: 3.0.0
 info:
-  title: FlightApi_TNR
+  title: FlightApi
+  description: Flight booking application demo for postman training
   version: Dec22
 servers:
   - url: http://localhost:5000
 components:
   securitySchemes:
-    basicAuth:
+    BasicAuth:
       type: http
       scheme: basic
-    bearerAuth:
+    BearerAuth:            
       type: http
       scheme: bearer
+    ApiKeyAuth:
+      type: apiKey,
+      name: api_key,
+      in: header
 tags:
   - name: Authentication
   - name: City
@@ -443,7 +448,7 @@ paths:
                 PriceFirst: 136
                 PriceBusiness: 160
                 SeatsAvailable: 250
-                DayOfWeek: Monday
+                DayOfWeek: Monday                
     delete:
       security:
         - bearerAuth: []
@@ -506,7 +511,7 @@ paths:
           application/json:
             schema:
               type: object
-              example:
+              example: 
                 DepartureDate: 2023-01-15
                 FlightNumber: 14526
                 CustomerName: "Dupont"
@@ -759,3 +764,5 @@ paths:
           description: Successful response
           content:
             application/json: {}
+security:
+  - ApiKeyAuth: []

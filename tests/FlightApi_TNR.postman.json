@@ -1764,11 +1764,11 @@
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"FlightNumber greater than 21000 \", function () {\r",
+									"pm.test(\"FlightNumber greater than 20300 \", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData[0].FlightNumber).to.greaterThan(21000);\r",
-									"    pm.globals.set (\"CityFlightNumber\", jsonData[0].FlightNumber );\r",
-									"    console.log (pm.globals.get (\"CityFlightNumber\"));\r",
+									"    pm.expect(jsonData[0].FlightNumber).to.greaterThan(20300);\r",
+									"    pm.environment.set (\"FlightNumber\", jsonData[0].FlightNumber );\r",
+									"    console.log (pm.globals.get (\"FlightNumber\"));\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1894,13 +1894,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{endpoint}}/Flights/{{CityFlightNumber}}",
+							"raw": "{{endpoint}}/Flights/{{FlightNumber}}",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"Flights",
-								"{{CityFlightNumber}}"
+								"{{FlightNumber}}"
 							]
 						}
 					},
@@ -2108,9 +2108,9 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"DepartureCity is Casablanca\", function () {\r",
+									"pm.test(\"DepartureCity is San Francisco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.DepartureCity).to.eql(\"Casablance\");\r",
+									"    pm.expect(jsonData.DepartureCity).to.eql(\"San Francisco\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2146,13 +2146,13 @@
 							"raw": "{\r\n    \"Price\": {{Price}},\r\n    \"PriceFirst\": {{PriceFirst}},\r\n    \"PriceBusiness\": {{PriceBusiness}}\r\n}"
 						},
 						"url": {
-							"raw": "{{endpoint}}/Flights/20001",
+							"raw": "{{endpoint}}/Flights/1023",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"Flights",
-								"20001"
+								"1023"
 							]
 						}
 					},
@@ -2227,7 +2227,7 @@
 								"exec": [
 									"const moment = require('moment');\r",
 									"var days = Math.random() * 15 + 5\r",
-									"pm.variables.set (\"Date\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
+									"pm.variables.set (\"RandomDate\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
 								],
 								"type": "text/javascript"
 							}
@@ -2264,7 +2264,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{endpoint}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2023-01-02",
+							"raw": "{{endpoint}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date={{RandomDate}}",
 							"host": [
 								"{{endpoint}}"
 							],
@@ -2282,7 +2282,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "2023-01-02"
+									"value": "{{RandomDate}}"
 								}
 							]
 						}
