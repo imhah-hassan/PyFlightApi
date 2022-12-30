@@ -1766,7 +1766,6 @@
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData[0].FlightNumber).to.greaterThan(20300);\r",
 									"    pm.environment.set (\"FlightNumber\", jsonData[0].FlightNumber );\r",
-									"    console.log (pm.globals.get (\"FlightNumber\"));\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2087,7 +2086,6 @@
 									"var priceFirst = parseFloat(pm.environment.get (\"PriceFirst\"));\r",
 									"var priceBusiness = parseFloat(pm.environment.get (\"PriceBusiness\"));\r",
 									"\r",
-									"console.log (price)\r",
 									"pm.environment.set (\"Price\", price + 10.0);\r",
 									"pm.environment.set (\"PriceFirst\", priceFirst + 10.0);\r",
 									"pm.environment.set (\"PriceBusiness\", priceBusiness + 10.0);\r",
