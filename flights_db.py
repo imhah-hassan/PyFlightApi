@@ -76,9 +76,11 @@ class   sqlite_db ():
     # Utils
     #
     # Get day name from date
-    def get_week_day(self, year, month, day):
-        dt = date(year, month, day)
+    def get_week_day(self, date_str):
+        date_parts = date_str.split('-')
+        dt = date(int(date_parts[0]), int(date_parts[1]), int(date_parts[2]))
         return (calendar.day_name[dt.weekday()])
+
     # Convert Flight Class number to name 1 - Business, 2-First, 3-Economy
     def flight_class_name (self, flght_class):
         flght_class_name = 'N/A'
@@ -94,7 +96,7 @@ class   sqlite_db ():
         flight_date = datetime.strptime(flight_date, "%Y-%m-%d")
         return(flight_date > datetime.now())
     # Convert Flight Class name  to Number  1 - Business, 2-First, 3-Economy
-    def flight_class_numer(self, flght_class_name):
+    def flight_class_id(self, flght_class_name):
         flight_class = 0
         if flght_class_name == 'Business':
             flight_class = 1
@@ -257,8 +259,7 @@ class   sqlite_db ():
             return -2
 
         if (flight_date.find('-') > 0):
-            date_parts = flight_date.split('-')
-            day_name = self.get_week_day (int(date_parts[0]), int(date_parts[1]), int(date_parts[2]))
+            day_name = self.get_week_day (flight_date)
         sql = 'SELECT 	f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM 	Flights f  '
         criterias = ''
         if (len(departure_city) > 0):
@@ -473,7 +474,7 @@ class   sqlite_db ():
         #  departure_date = get_flight_datetime('2021-02-05', flight.DepartureTime)
         departure_date = self.get_flight_datetime(departure_date, flight.DepartureTime)
         sql = 'INSERT INTO Orders (CustomerName, DepartureDate, FlightNumber, TicketsOrdered, Class, TotalPrice) values(?, ?, ?, ?, ?, ?)'
-        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_numer(flight_class), total_price)
+        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_id(flight_class), total_price)
         with self.con:
             self.con.execute(sql, data)
             cursor = self.con.cursor()
@@ -484,16 +485,20 @@ class   sqlite_db ():
         new_order.OrderNumber = last_id
         new_order.TotalPrice = total_price
         return (new_order)
-    def update_flight_order (self, order_number, flight_number, flight_class, customer_name, number_of_tickets):
+    def update_flight_order (self, order_number, flight_number, departure_date, flight_class, customer_name, number_of_tickets):
         totaPrice = 0
         orders =  self.get_orders (str(order_number), '')
         flight = self.get_flight(flight_number)
         if (len(orders)==0):
             return 0
         tickets_ordered_old = orders[0].NumberOfTickets
-        class_numer = self.flight_class_numer(flight_class)
-        if (class_numer==0):
+        class_id = self.flight_class_id(flight_class)
+        if (class_id==0):
             return (-1)
+        day_name = self.get_week_day(departure_date)
+        if day_name!=flight.DayOfWeek:
+            # Vol non disponible ce jour
+            return (-5)
         if (number_of_tickets>10):
                 return (-4)
         if flight_class == 'Economy':
@@ -503,9 +508,11 @@ class   sqlite_db ():
         if flight_class == 'Business':
             totaPrice = number_of_tickets*flight.PriceBusiness
 
-        sql = 'UPDATE Orders SET Class = '+ str(class_numer)
+        departure_date = self.get_flight_datetime(departure_date, flight.DepartureTime)
+        sql = 'UPDATE Orders SET Class = '+ str(class_id)
         sql += ', CustomerName = \''+customer_name + "'"
         sql += ', FlightNumber = ' + str(flight_number)
+        sql += ', DepartureDate = \'' + str(departure_date) + "'"
         sql += ', TicketsOrdered = '+str(number_of_tickets)
         sql += ', TotalPrice = ' + str(totaPrice)
         sql += ' WHERE OrderNumber=' + str(order_number)
@@ -516,6 +523,7 @@ class   sqlite_db ():
             self.update_seats_available(flight_number, tickets_ordered_old)
             self.update_seats_available(flight_number, -1 * int(number_of_tickets))
         return (self.get_orders(order_number, '')[0])
+
     def delete_flight_order (self, order_number):
         orders = self.get_orders (order_number, '')
         if (len(orders) == 0):

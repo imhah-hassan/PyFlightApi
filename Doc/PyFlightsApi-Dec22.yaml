@@ -1,74 +1,102 @@
 openapi: 3.0.0
 info:
-  title: FlightApi
-  description: Flight booking application demo for postman training
-  version: Dec22
+  title: FlightApi_swagger
+  version: 1.0.0
 servers:
-  - url: http://localhost:5000
+  - url: http://{{endpoint}}
 components:
   securitySchemes:
-    BasicAuth:
+    basicAuth:
       type: http
       scheme: basic
-    BearerAuth:            
-      type: http
-      scheme: bearer
-    ApiKeyAuth:
-      type: apiKey,
-      name: api_key,
-      in: header
-tags:
-  - name: Authentication
-  - name: City
-  - name: Flight
-  - name: Order
 paths:
+  /:
+    get:
+      tags:
+        - default
+      summary: Home
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /login:
     get:
+      tags:
+        - default
+      summary: Login
       security:
         - basicAuth: []
-      tags:
-        - Authentication
-      summary: Login
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
   /Cities:
-    post:
-      security:
-        - bearerAuth: []
+    get:
       tags:
-        - City
+        - default
+      summary: GetCityByCode
+      parameters:
+        - name: CityCode
+          in: query
+          schema:
+            type: string
+          example: PAR
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: Werkzeug/2.2.2 Python/3.11.1
+            Date:
+              schema:
+                type: string
+                example: Wed, 28 Dec 2022 00:35:38 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '46'
+            Connection:
+              schema:
+                type: string
+                example: close
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - CityInitials: PAR
+                  CityName: Paris
+    post:
+      tags:
+        - default
       summary: AddCity
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
-              type: "object"
-              properties:
-                CityInitials:
-                  type: "string"
-                CityName:
-                  type: "string"
+              type: object
+              example:
+                CityInitials: CMN
+                CityName: Casablanca
       parameters:
         - name: Content-Type
           in: header
           schema:
             type: string
           example: application/json
-        - name: x-access-token
+        - name: Authorization
           in: header
           schema:
             type: string
-          example: '{{token}}'
+          example: 'Bearer: {{token}}'
       responses:
         '201':
           description: CREATED
@@ -80,7 +108,7 @@ paths:
             Date:
               schema:
                 type: string
-                example: Wed, 28 Dec 2022 00:36:46 GMT
+                example: Wed, 28 Dec 2022 00:35:52 GMT
             Content-Type:
               schema:
                 type: string
@@ -100,129 +128,25 @@ paths:
               example:
                 CityInitials: CMN
                 CityName: Casablanca
-    get:
-      tags:
-        - City
-      summary: GetCities
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-      responses:
-        '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                - CityInitials: SFO
-                  CityName: San Francisco
-                - CityInitials: SEA
-                  CityName: Seattle
-                - CityInitials: DEN
-                  CityName: Denver
-                - CityInitials: FRA
-                  CityName: Frankfurt
-                - CityInitials: LON
-                  CityName: London
-                - CityInitials: LAX
-                  CityName: Los Angeles
-                - CityInitials: PAR
-                  CityName: Paris
-                - CityInitials: POR
-                  CityName: Portland
-                - CityInitials: SYD
-                  CityName: Sydney
-                - CityInitials: ZRH
-                  CityName: Zurich
-  /Cities/{CityInitials}:
-    delete:
-      security:
-        - bearerAuth: []
-      tags:
-        - City
-      summary: DeleteCity
-      parameters:
-        - name: CityInitials
-          in: path
-          schema:
-            type: string
-          required: true
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-        - name: x-access-token
-          in: header
-          schema:
-            type: string
-          example: '{{token}}'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Server:
-              schema:
-                type: string
-                example: Werkzeug/2.2.2 Python/3.11.1
-            Date:
-              schema:
-                type: string
-                example: Wed, 28 Dec 2022 00:37:16 GMT
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            Content-Length:
-              schema:
-                type: integer
-                example: '29'
-            Connection:
-              schema:
-                type: string
-                example: close
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                'true': 'City deleted CMN '
+  /Cities/CMN:
     patch:
-      security:
-        - bearerAuth: []
       tags:
-        - City
+        - default
       summary: UpdateCity
       requestBody:
         content:
           '*/*':
             schema:
-              type: "object"
-              properties:
-                CityInitials:
-                  type: "string"
-                CityName:
-                  type: "string"
+              type: string
+              example: >-
+                "{\r\n   \"CityInitials\":\"CMN\",\r\n  
+                \"CityName\":\"Casablanca\"\r\n}"
       parameters:
-        - name: CityInitials
-          in: path
-          schema:
-            type: string
-          required: true
-        - name: x-access-token
+        - name: Authorization
           in: header
           schema:
             type: string
-          example: '{{token}}'
+          example: 'Bearer: {{token}}'
         - name: Content-Type
           in: header
           schema:
@@ -259,10 +183,50 @@ paths:
               example:
                 CityInitials: CMN
                 CityName: Casablanca
+    delete:
+      tags:
+        - default
+      summary: DeleteCity
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: 'Bearer: {{token}}'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: Werkzeug/2.2.2 Python/3.11.1
+            Date:
+              schema:
+                type: string
+                example: Wed, 28 Dec 2022 00:36:06 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '29'
+            Connection:
+              schema:
+                type: string
+                example: close
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                'true': 'City deleted CMN '
   /RandomFlights:
     get:
       tags:
-        - Flight
+        - default
       summary: RandomFlights
       parameters:
         - name: Count
@@ -326,7 +290,7 @@ paths:
   /Flights/{FlightNumber}:
     get:
       tags:
-        - Flight
+        - default
       summary: GetFlight
       parameters:
         - name: FlightNumber
@@ -374,86 +338,9 @@ paths:
                 PriceBusiness: 191.62
                 SeatsAvailable: 250
                 DayOfWeek: Friday
-    patch:
-      security:
-        - bearerAuth: []
-      tags:
-        - Flight
-      summary: UpdateFlightPrice
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              type: object
-              properties:
-                Price:
-                  type: "number"
-                PriceFirst:
-                  type: "number"
-                PriceBusiness:
-                  type: "number"
-      parameters:
-        - name: FlightNumber
-          in: path
-          schema:
-            type: string
-          required: true
-
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-        - name: x-access-token
-          in: header
-          schema:
-            type: string
-          example: '{{token}}'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Server:
-              schema:
-                type: string
-                example: Werkzeug/2.2.2 Python/3.11.1
-            Date:
-              schema:
-                type: string
-                example: Wed, 28 Dec 2022 00:39:18 GMT
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            Content-Length:
-              schema:
-                type: integer
-                example: '253'
-            Connection:
-              schema:
-                type: string
-                example: close
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                Airline: RAM
-                ArrivalCity: Paris
-                ArrivalTime: 11:00 AM
-                DepartureCity: Casablance
-                DepartureTime: 08:00 AM
-                FlightNumber: 20001
-                Price: 122
-                PriceFirst: 136
-                PriceBusiness: 160
-                SeatsAvailable: 250
-                DayOfWeek: Monday                
     delete:
-      security:
-        - bearerAuth: []
       tags:
-        - Flight
+        - default
       summary: DeleteFlight
       parameters:
         - name: Content-Type
@@ -461,11 +348,11 @@ paths:
           schema:
             type: string
           example: application/json
-        - name: x-access-token
+        - name: Authorization
           in: header
           schema:
             type: string
-          example: '{{token}}'
+          example: 'Bearer: {{token}}'
         - name: FlightNumber
           in: path
           schema:
@@ -501,22 +388,145 @@ paths:
                 type: object
               example:
                 'true': 'Flight deleted 100000 '
+  /Flights:
+    get:
+      tags:
+        - default
+      summary: SearchFlights
+      parameters:
+        - name: DepartureCity
+          in: query
+          schema:
+            type: string
+          example: Paris
+        - name: ArrivalCity
+          in: query
+          schema:
+            type: string
+          example: London
+        - name: Date
+          in: query
+          schema:
+            type: string
+          example: '2023-11-16'
+      responses:
+        '500':
+          description: INTERNAL SERVER ERROR
+          headers:
+            Server:
+              schema:
+                type: string
+                example: Werkzeug/2.2.2 Python/3.11.1
+            Date:
+              schema:
+                type: string
+                example: Wed, 28 Dec 2022 00:39:27 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: text/html; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '265'
+            Connection:
+              schema:
+                type: string
+                example: close
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: >-
+                <!doctype html><html lang=en><title>500 Internal Server
+                Error</title><h1>Internal Server Error</h1><p>The server
+                encountered an internal error and was unable to complete your
+                request. Either the server is overloaded or there is an error in
+                the application.</p>
+    post:
+      tags:
+        - default
+      summary: AddFlight
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\r\n    \"Airline\": \"RAM\",\r\n    \"ArrivalCity\":
+                \"Paris\",\r\n    \"ArrivalInitials\": \"PAR\",\r\n   
+                \"ArrivalTime\": \"11:00 AM\",\r\n    \"DepartureCity\":
+                \"Denver\",\r\n    \"DepartureInitials\": \"DEN\",\r\n   
+                \"DepartureTime\": \"23:23 AM\",\r\n    \"Price\": 23.0,\r\n   
+                \"PriceFirst\": 233.0,\r\n    \"PriceBusiness\": 2333.0,\r\n   
+                \"SeatsAvailable\": 10,\r\n    \"DayOfWeek\": \"Monday\"\r\n}"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: 'Bearer: {{token}}'
+      responses:
+        '201':
+          description: CREATED
+          headers:
+            Server:
+              schema:
+                type: string
+                example: Werkzeug/2.2.2 Python/3.11.1
+            Date:
+              schema:
+                type: string
+                example: Wed, 28 Dec 2022 00:36:52 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '256'
+            Connection:
+              schema:
+                type: string
+                example: close
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Airline: RAM
+                ArrivalCity: Paris
+                ArrivalTime: 11:00 AM
+                DepartureCity: Casablanca
+                DepartureTime: 08:00 AM
+                FlightNumber: 100000
+                Price: 112
+                PriceFirst: 126
+                PriceBusiness: 150
+                SeatsAvailable: 100
+                DayOfWeek: Monday
   /FlightOrders:
     post:
       tags:
-        - Order
+        - default
       summary: BookFight
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              example: 
-                DepartureDate: 2023-01-15
-                FlightNumber: 14526
-                CustomerName: "Dupont"
+              example:
+                DepartureDate: '2023-11-16'
+                FlightNumber: 10519
+                CustomerName: ONEPOINT
                 NumberOfTickets: 2
-                Class: "First"
+                Class: First
       parameters:
         - name: Content-Type
           in: header
@@ -525,26 +535,12 @@ paths:
           example: application/json
       responses:
         '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            Content-Length:
-              schema:
-                type: integer
-                example: '40'
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-              example:
-                OrderNumber: 81
-                TotalPrice: 370.4
+            application/json: {}
     delete:
       tags:
-        - Order
+        - default
       summary: DeleteAllOrders
       parameters:
         - name: Content-Type
@@ -651,24 +647,75 @@ paths:
                   NumberOfTickets: 2
                   OrderNumber: 10
                   TotalPrice: 321.6
-  /FlightOrders/{Order}:
+  /FlightOrders/{OrderNumber}:
     patch:
       tags:
-        - Order
+        - default
       summary: UpdateOrder
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              example: "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{tmpNumeroDeVol}},\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": {{Places}},\r\n    \"Class\": \"{{Classe}}\"\r\n    }"
+              example:
+                DepartureDate: '2023-11-16'
+                FlightNumber: 10519
+                CustomerName: ONEPOINT
+                NumberOfTickets: 10
+                Class: Business
       parameters:
         - name: Content-Type
           in: header
           schema:
             type: string
           example: application/json
-        - name: Order
+        - name: OrderNumber
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: Werkzeug/2.2.2 Python/3.11.1
+            Date:
+              schema:
+                type: string
+                example: Wed, 28 Dec 2022 00:39:40 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '165'
+            Connection:
+              schema:
+                type: string
+                example: close
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Class: First
+                CustomerName: IMHAH
+                DepartureDate: 2023-1-21 08:00
+                FlightNumber: 99558
+                NumberOfTickets: 3
+                OrderNumber: 81
+                TotalPrice: 666.72
+    get:
+      tags:
+        - default
+      summary: GetOrder
+      parameters:
+        - name: OrderNumber
           in: path
           schema:
             type: string
@@ -711,7 +758,7 @@ paths:
                 TotalPrice: 666.72
     delete:
       tags:
-        - Order
+        - default
       summary: DeleteOrder
       parameters:
         - name: Content-Type
@@ -719,7 +766,7 @@ paths:
           schema:
             type: string
           example: application/json
-        - name: Order
+        - name: OrderNumber
           in: path
           schema:
             type: string
@@ -754,15 +801,3 @@ paths:
                 type: object
               example:
                 'true': 'Order deleted 81 '
-  /:
-    get:
-      tags:
-        - default
-      summary: Home
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-security:
-  - ApiKeyAuth: []

@@ -395,7 +395,7 @@ def UpdateOrder(OrderNumber):
         FlightNumber = data['FlightNumber']
         NumberOfTickets = data['NumberOfTickets']
         FlightClass = data['Class']
-        upd_order = db.update_flight_order(OrderNumber, FlightNumber, FlightClass, CustomerName, NumberOfTickets)
+        upd_order = db.update_flight_order(OrderNumber, FlightNumber, DepartureDate, FlightClass, CustomerName, NumberOfTickets)
         if (upd_order==0):
             return (jsonify({"error": "Order not found : {0} ".format(OrderNumber)}), 500)
         elif (upd_order==-1):
@@ -406,6 +406,8 @@ def UpdateOrder(OrderNumber):
             return (jsonify({"error": "No more seats available in flight  : {0} ".format(FlightNumber)}), 500)
         elif (upd_order == -4):
             return (jsonify({"error": "Ordered tickets cannot be more than 10 ".format(FlightNumber)}), 500)
+        elif (upd_order == -5):
+            return (jsonify({"error": "Flight not avilable for departure date ".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(upd_order.__dict__)
             response = make_response(json_string, 200, )

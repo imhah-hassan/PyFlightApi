@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b774417a-1d1f-4fdd-a881-01b0aa4332d9",
+		"_postman_id": "37356cdb-fcf7-4209-acea-7c5736d352e6",
 		"name": "FlightApi_TNR",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "5167767"
@@ -16,10 +16,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Verifiy and read token\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.globals.set (\"token\", jsonData.token);\r",
 									"});"
@@ -43,12 +43,12 @@
 							"basic": [
 								{
 									"key": "username",
-									"value": "maria",
+									"value": "clarice",
 									"type": "string"
 								},
 								{
 									"key": "password",
-									"value": "HP",
+									"value": "onepoint",
 									"type": "string"
 								}
 							]
@@ -80,11 +80,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Admin profil needed to delete city\", function () {\r",
+									"pm.test(\"Admin profil needed to delete city\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.false).to.eql(\"Admin profil needed to delete city \");\r",
 									"});"
@@ -199,10 +199,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Verifiy and read token\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.globals.set (\"token\", jsonData.token);\r",
 									"});"
@@ -225,13 +225,13 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "username",
-									"value": "john",
+									"key": "password",
+									"value": "onepoint",
 									"type": "string"
 								},
 								{
-									"key": "password",
-									"value": "HP",
+									"key": "username",
+									"value": "marc",
 									"type": "string"
 								}
 							]
@@ -265,11 +265,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca created\", function () {\r",
+									"pm.test(\"Citie Casablanca created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca\");\r",
 									"});"
@@ -384,11 +384,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca deleted\", function () {\r",
+									"pm.test(\"City Casablanca deleted\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(pm.response.text()).to.include('\"true\":\"City deleted');\r",
 									"});"
@@ -494,26 +494,6 @@
 						}
 					]
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.globals.set (\"folder\", \"01-Auth\")"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
@@ -526,10 +506,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \"  - status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Verifiy and read token\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.globals.set (\"token\", jsonData.token);\r",
 									"});"
@@ -587,24 +567,6 @@
 				},
 				{
 					"name": "GetCityByCode",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City name is Paris\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData[0].CityName).to.eql(\"Paris\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"host": true,
@@ -698,11 +660,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Cities count is 10\", function () {\r",
+									"pm.test(\"Cities count\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.eql(10);\r",
 									"});"
@@ -792,11 +754,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca created\", function () {\r",
+									"pm.test(\"Citie Casablanca created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca\");\r",
 									"});"
@@ -911,11 +873,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + \"City Casablanca updated\", function () {\r",
+									"pm.test(\"Citie Casablanca created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca\");\r",
 									"});"
@@ -1027,11 +989,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Cities - DeleteCity - City Casablanca deleted\", function () {\r",
+									"pm.test(\"City Casablanca deleted\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(pm.response.text()).to.include('\"true\":\"City deleted');\r",
 									"});"
@@ -1137,26 +1099,6 @@
 						}
 					]
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.globals.set (\"folder\", \"02-Cities\")"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
@@ -1180,11 +1122,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Flights count greater than 0\", function () {\r",
+									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
 									"});"
@@ -1296,11 +1238,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Flights count greater than 0\", function () {\r",
+									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
 									"    pm.environment.set(\"FlightNumber\", jsonData[0].FlightNumber)\r",
@@ -1406,11 +1348,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Body matches SeatsAvailable\", function () {\r",
+									"pm.test(\"Body matches SeatsAvailable\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
 									"});"
 								],
@@ -1495,10 +1437,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Token is present\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.globals.set (\"token\", jsonData.token);\r",
 									"});"
@@ -1561,11 +1503,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca created\", function () {\r",
+									"pm.test(\"Citie Casablanca created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca\");\r",
 									"});"
@@ -1684,11 +1626,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 201\", function () {\r",
+									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Body matches SeatsAvailable\", function () {\r",
+									"pm.test(\"Body matches SeatsAvailable\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.environment.set (\"Price\", jsonData.Price);\r",
@@ -1811,11 +1753,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Flights count greater than 0\", function () {\r",
+									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
 									"});\r",
@@ -1908,11 +1850,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca deleted\", function () {\r",
+									"pm.test(\"City Casablanca deleted\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(pm.response.text()).to.include('\"true\":\"Flight deleted');\r",
 									"});"
@@ -2023,11 +1965,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - City Casablanca deleted\", function () {\r",
+									"pm.test(\"City Casablanca deleted\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(pm.response.text()).to.include('\"true\":\"City deleted');\r",
 									"});"
@@ -2158,11 +2100,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - DepartureCity is San Francisco\", function () {\r",
+									"pm.test(\"DepartureCity is San Francisco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.DepartureCity).to.eql(\"San Francisco\");\r",
 									"});"
@@ -2267,30 +2209,10 @@
 						}
 					]
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.globals.set (\"folder\", \"03-Flights\")"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
-			"name": "Orders",
+			"name": "FlightOrders",
 			"item": [
 				{
 					"name": "SearchFlights",
@@ -2310,11 +2232,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Flights count greater than 0\", function () {\r",
+									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
 									"        var jsonData = pm.response.json();\r",
@@ -2428,10 +2350,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Verfiy order number is greate than 80\", function () {\r",
+									"pm.test(\"Verfiy order number is greate than 80\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.OrderNumber).to.greaterThan(80);\r",
 									"    pm.globals.set(\"tmpResa\", jsonData.OrderNumber);\r",
@@ -2555,22 +2477,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Verify flight number\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.FlightNumber).to.eql(pm.globals.get(\"tmpNumeroDeVol\"));\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"protocolProfileBehavior": {
@@ -2690,11 +2596,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + ' - Body matches \"true\": \"Order deleted\"', function () {\r",
+									"pm.test('Body matches \"true\": \"Order deleted\"', function () {\r",
 									"    pm.expect(pm.response.text()).to.include('\"true\":\"Order deleted');\r",
 									"});"
 								],
@@ -2818,15 +2724,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Status code is 200\", function () {\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Body matches NumberOfTickets\", function () {\r",
+									"pm.test('Body matches NumberOfTickets', function () {\r",
 									"    pm.expect(pm.response.text()).to.include('NumberOfTickets');\r",
 									"});\r",
 									"\r",
-									"pm.test(pm.globals.get(\"folder\") + \"-\" + pm.info.requestName + \" - Remaining orders count is 10\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.eql(10);\r",
 									"});"
@@ -2933,26 +2839,6 @@
 						}
 					]
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.globals.set (\"folder\", \"04-Orders\")"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
@@ -2962,14 +2848,12 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(pm.info.requestName + \" - Status code is 200\", function () {\r",
+							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"pm.test(pm.info.requestName + \" - Body matches FlightsApp Rest Api\", function () {\r",
+							"pm.test(\"Body matches FlightsApp Rest Api\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"FlightsApp Rest Api\");\r",
-							"});\r",
-							"\r",
-							""
+							"});"
 						],
 						"type": "text/javascript"
 					}
