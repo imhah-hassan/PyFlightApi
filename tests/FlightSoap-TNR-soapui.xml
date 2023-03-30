@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b380b3d5-9281-442a-840a-dd3545a3e1df" activeEnvironment="Default" name="FlightSoap_TNR" resourceRoot="" soapui-version="5.7.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="e8addcd9-a6f1-4233-abba-793e43a18816" wsaVersion="NONE" name="Application" type="wsdl" bindingName="{ns.flights.py}Application" soapVersion="1_1" anonymous="optional" definition="http://localhost:5000/?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:5000/?wsdl"><con:part><con:url>http://localhost:5000/?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="ns.flights.py" name="Application" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:wsdlsoap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdlsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap11enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap11env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding" xmlns:wsa="http://schemas.xmlsoap.org/ws/2003/03/addressing" xmlns:xop="http://www.w3.org/2004/08/xop/include" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="ns.flights.py" xmlns:s0="FlightOrder" xmlns:s1="Flight" xmlns:s2="City" xmlns:s3="Order">
+  <wsdl:types>
+    <xs:schema targetNamespace="ns.flights.py" elementFormDefault="qualified">
+      <xs:import namespace="FlightOrder"/>
+      <xs:import namespace="City"/>
+      <xs:import namespace="Flight"/>
+      <xs:import namespace="Order"/>
+      <xs:complexType name="CreateFlightOrder">
+        <xs:sequence>
+          <xs:element name="CustomerName" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="DepartureDate" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightNumber" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="NumberOfTickets" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightClass" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteFlightOrder">
+        <xs:sequence>
+          <xs:element name="FlightOrder" type="xs:integer" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteFlightOrderResponse">
+        <xs:sequence>
+          <xs:element name="DeleteFlightOrderResult" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetCities">
+        <xs:sequence>
+          <xs:element name="city_initials" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetFlightOrders">
+        <xs:sequence>
+          <xs:element name="CustomerName" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="OrderNumber" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetFlights">
+        <xs:sequence>
+          <xs:element name="DepartureCity" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="ArrivalCity" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightDate" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetFlightsResponse">
+        <xs:sequence>
+          <xs:element name="GetFlightsResult" type="s1:FlightArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetRandomFlights">
+        <xs:sequence>
+          <xs:element name="Count" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="UpdateFlightOrder">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightNumber" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="DepartureDate" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightClass" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="CustomerName" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="NumberOfTickets" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="UpdateFlightOrderResponse">
+        <xs:sequence>
+          <xs:element name="UpdateFlightOrderResult" type="s0:FlightOrder" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CreateFlightOrderResponse">
+        <xs:sequence>
+          <xs:element name="CreateFlightOrderResult" type="s3:Order" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetCitiesResponse">
+        <xs:sequence>
+          <xs:element name="GetCitiesResult" type="s2:CityArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetFlightOrdersResponse">
+        <xs:sequence>
+          <xs:element name="GetFlightOrdersResult" type="s0:FlightOrderArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetRandomFlightsResponse">
+        <xs:sequence>
+          <xs:element name="GetRandomFlightsResult" type="s1:FlightArray" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="CreateFlightOrder" type="tns:CreateFlightOrder"/>
+      <xs:element name="DeleteFlightOrder" type="tns:DeleteFlightOrder"/>
+      <xs:element name="DeleteFlightOrderResponse" type="tns:DeleteFlightOrderResponse"/>
+      <xs:element name="GetCities" type="tns:GetCities"/>
+      <xs:element name="GetFlightOrders" type="tns:GetFlightOrders"/>
+      <xs:element name="GetFlights" type="tns:GetFlights"/>
+      <xs:element name="GetFlightsResponse" type="tns:GetFlightsResponse"/>
+      <xs:element name="GetRandomFlights" type="tns:GetRandomFlights"/>
+      <xs:element name="UpdateFlightOrder" type="tns:UpdateFlightOrder"/>
+      <xs:element name="UpdateFlightOrderResponse" type="tns:UpdateFlightOrderResponse"/>
+      <xs:element name="CreateFlightOrderResponse" type="tns:CreateFlightOrderResponse"/>
+      <xs:element name="GetCitiesResponse" type="tns:GetCitiesResponse"/>
+      <xs:element name="GetFlightOrdersResponse" type="tns:GetFlightOrdersResponse"/>
+      <xs:element name="GetRandomFlightsResponse" type="tns:GetRandomFlightsResponse"/>
+    </xs:schema>
+    <xs:schema targetNamespace="FlightOrder" elementFormDefault="qualified">
+      <xs:complexType name="FlightOrder">
+        <xs:sequence>
+          <xs:element name="Class" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="CustomerName" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="DepartureDate" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="NumberOfTickets" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="OrderNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="TotalPrice" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FlightOrderArray">
+        <xs:sequence>
+          <xs:element name="FlightOrder" type="s0:FlightOrder" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FlightOrder" type="s0:FlightOrder"/>
+      <xs:element name="FlightOrderArray" type="s0:FlightOrderArray"/>
+    </xs:schema>
+    <xs:schema targetNamespace="Flight" elementFormDefault="qualified">
+      <xs:complexType name="Flight">
+        <xs:sequence>
+          <xs:element name="Airline" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="ArrivalCity" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="ArrivalTime" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="DepartureCity" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="DepartureTime" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="FlightNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="Price" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="PriceFirst" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="PriceBusiness" type="xs:float" minOccurs="0" nillable="true"/>
+          <xs:element name="SeatsAvailable" type="xs:integer" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FlightArray">
+        <xs:sequence>
+          <xs:element name="Flight" type="s1:Flight" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Flight" type="s1:Flight"/>
+      <xs:element name="FlightArray" type="s1:FlightArray"/>
+    </xs:schema>
+    <xs:schema targetNamespace="City" elementFormDefault="qualified">
+      <xs:complexType name="City">
+        <xs:sequence>
+          <xs:element name="CityInitials" type="xs:string" minOccurs="0" nillable="true"/>
+          <xs:element name="CityName" type="xs:string" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CityArray">
+        <xs:sequence>
+          <xs:element name="City" type="s2:City" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="City" type="s2:City"/>
+      <xs:element name="CityArray" type="s2:CityArray"/>
+    </xs:schema>
+    <xs:schema targetNamespace="Order" elementFormDefault="qualified">
+      <xs:complexType name="Order">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:integer" minOccurs="0" nillable="true"/>
+          <xs:element name="TotalPrice" type="xs:float" minOccurs="0" nillable="true"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Order" type="s3:Order"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCities">
+    <wsdl:part name="GetCities" element="tns:GetCities"/>
+  </wsdl:message>
+  <wsdl:message name="GetCitiesResponse">
+    <wsdl:part name="GetCitiesResponse" element="tns:GetCitiesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetRandomFlights">
+    <wsdl:part name="GetRandomFlights" element="tns:GetRandomFlights"/>
+  </wsdl:message>
+  <wsdl:message name="GetRandomFlightsResponse">
+    <wsdl:part name="GetRandomFlightsResponse" element="tns:GetRandomFlightsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetFlights">
+    <wsdl:part name="GetFlights" element="tns:GetFlights"/>
+  </wsdl:message>
+  <wsdl:message name="GetFlightsResponse">
+    <wsdl:part name="GetFlightsResponse" element="tns:GetFlightsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetFlightOrders">
+    <wsdl:part name="GetFlightOrders" element="tns:GetFlightOrders"/>
+  </wsdl:message>
+  <wsdl:message name="GetFlightOrdersResponse">
+    <wsdl:part name="GetFlightOrdersResponse" element="tns:GetFlightOrdersResponse"/>
+  </wsdl:message>
+  <wsdl:message name="CreateFlightOrder">
+    <wsdl:part name="CreateFlightOrder" element="tns:CreateFlightOrder"/>
+  </wsdl:message>
+  <wsdl:message name="CreateFlightOrderResponse">
+    <wsdl:part name="CreateFlightOrderResponse" element="tns:CreateFlightOrderResponse"/>
+  </wsdl:message>
+  <wsdl:message name="DeleteFlightOrder">
+    <wsdl:part name="DeleteFlightOrder" element="tns:DeleteFlightOrder"/>
+  </wsdl:message>
+  <wsdl:message name="DeleteFlightOrderResponse">
+    <wsdl:part name="DeleteFlightOrderResponse" element="tns:DeleteFlightOrderResponse"/>
+  </wsdl:message>
+  <wsdl:message name="UpdateFlightOrder">
+    <wsdl:part name="UpdateFlightOrder" element="tns:UpdateFlightOrder"/>
+  </wsdl:message>
+  <wsdl:message name="UpdateFlightOrderResponse">
+    <wsdl:part name="UpdateFlightOrderResponse" element="tns:UpdateFlightOrderResponse"/>
+  </wsdl:message>
+  <wsdl:service name="FlightsSOAP">
+    <wsdl:port name="Application" binding="tns:Application">
+      <wsdlsoap11:address location="http://localhost:5000/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:portType name="Application">
+    <wsdl:operation name="GetCities" parameterOrder="GetCities">
+      <wsdl:input name="GetCities" message="tns:GetCities"/>
+      <wsdl:output name="GetCitiesResponse" message="tns:GetCitiesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRandomFlights" parameterOrder="GetRandomFlights">
+      <wsdl:input name="GetRandomFlights" message="tns:GetRandomFlights"/>
+      <wsdl:output name="GetRandomFlightsResponse" message="tns:GetRandomFlightsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlights" parameterOrder="GetFlights">
+      <wsdl:input name="GetFlights" message="tns:GetFlights"/>
+      <wsdl:output name="GetFlightsResponse" message="tns:GetFlightsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightOrders" parameterOrder="GetFlightOrders">
+      <wsdl:input name="GetFlightOrders" message="tns:GetFlightOrders"/>
+      <wsdl:output name="GetFlightOrdersResponse" message="tns:GetFlightOrdersResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateFlightOrder" parameterOrder="CreateFlightOrder">
+      <wsdl:input name="CreateFlightOrder" message="tns:CreateFlightOrder"/>
+      <wsdl:output name="CreateFlightOrderResponse" message="tns:CreateFlightOrderResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFlightOrder" parameterOrder="DeleteFlightOrder">
+      <wsdl:input name="DeleteFlightOrder" message="tns:DeleteFlightOrder"/>
+      <wsdl:output name="DeleteFlightOrderResponse" message="tns:DeleteFlightOrderResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFlightOrder" parameterOrder="UpdateFlightOrder">
+      <wsdl:input name="UpdateFlightOrder" message="tns:UpdateFlightOrder"/>
+      <wsdl:output name="UpdateFlightOrderResponse" message="tns:UpdateFlightOrderResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Application" type="tns:Application">
+    <wsdlsoap11:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetCities">
+      <wsdlsoap11:operation soapAction="GetCities" style="document"/>
+      <wsdl:input name="GetCities">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetCitiesResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRandomFlights">
+      <wsdlsoap11:operation soapAction="GetRandomFlights" style="document"/>
+      <wsdl:input name="GetRandomFlights">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetRandomFlightsResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlights">
+      <wsdlsoap11:operation soapAction="GetFlights" style="document"/>
+      <wsdl:input name="GetFlights">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetFlightsResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightOrders">
+      <wsdlsoap11:operation soapAction="GetFlightOrders" style="document"/>
+      <wsdl:input name="GetFlightOrders">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetFlightOrdersResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateFlightOrder">
+      <wsdlsoap11:operation soapAction="CreateFlightOrder" style="document"/>
+      <wsdl:input name="CreateFlightOrder">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CreateFlightOrderResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFlightOrder">
+      <wsdlsoap11:operation soapAction="DeleteFlightOrder" style="document"/>
+      <wsdl:input name="DeleteFlightOrder">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="DeleteFlightOrderResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFlightOrder">
+      <wsdlsoap11:operation soapAction="UpdateFlightOrder" style="document"/>
+      <wsdl:input name="UpdateFlightOrder">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateFlightOrderResponse">
+        <wsdlsoap11:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:5000/</con:endpoint></con:endpoints><con:operation id="8553a5eb-93fd-4b3b-98ed-d7b42954f868" isOneWay="false" action="CreateFlightOrder" name="CreateFlightOrder" bindingOperationName="CreateFlightOrder" type="Request-Response" outputName="CreateFlightOrderResponse" inputName="CreateFlightOrder" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="4ce002f5-8392-4de5-bd4d-b49c01c89f1d" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:CreateFlightOrder>\r
+         <!--Optional:-->\r
+         <ns:CustomerName>?</ns:CustomerName>\r
+         <!--Optional:-->\r
+         <ns:DepartureDate>?</ns:DepartureDate>\r
+         <!--Optional:-->\r
+         <ns:FlightNumber>?</ns:FlightNumber>\r
+         <!--Optional:-->\r
+         <ns:NumberOfTickets>?</ns:NumberOfTickets>\r
+         <!--Optional:-->\r
+         <ns:FlightClass>?</ns:FlightClass>\r
+      </ns:CreateFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CreateFlightOrder"/></con:call></con:operation><con:operation id="e1116cd2-65a9-420c-8562-6d875da39ace" isOneWay="false" action="DeleteFlightOrder" name="DeleteFlightOrder" bindingOperationName="DeleteFlightOrder" type="Request-Response" outputName="DeleteFlightOrderResponse" inputName="DeleteFlightOrder" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cf43aae9-0b3c-4b9b-beeb-1787cdd1c542" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:DeleteFlightOrder>\r
+         <!--Optional:-->\r
+         <ns:FlightOrder>?</ns:FlightOrder>\r
+      </ns:DeleteFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="DeleteFlightOrder"/></con:call></con:operation><con:operation id="6b1de65e-ae12-4fdd-8595-91b8f5902617" isOneWay="false" action="GetCities" name="GetCities" bindingOperationName="GetCities" type="Request-Response" outputName="GetCitiesResponse" inputName="GetCities" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f8d21ee0-add6-483f-951a-909739707b51" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetCities>\r
+         <!--Optional:-->\r
+         <ns:city_initials>?</ns:city_initials>\r
+      </ns:GetCities>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetCities"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="86b9e909-3cc7-48c4-b21f-a0b04ae4b85f" isOneWay="false" action="GetFlightOrders" name="GetFlightOrders" bindingOperationName="GetFlightOrders" type="Request-Response" outputName="GetFlightOrdersResponse" inputName="GetFlightOrders" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5ab6e043-c7f5-4752-837a-f505e1a3b265" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlightOrders>\r
+         <!--Optional:-->\r
+         <ns:CustomerName>?</ns:CustomerName>\r
+         <!--Optional:-->\r
+         <ns:OrderNumber>?</ns:OrderNumber>\r
+      </ns:GetFlightOrders>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlightOrders"/></con:call></con:operation><con:operation id="ce87e5da-7547-4490-a94b-7c0e04171eec" isOneWay="false" action="GetFlights" name="GetFlights" bindingOperationName="GetFlights" type="Request-Response" outputName="GetFlightsResponse" inputName="GetFlights" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="dc06384d-2728-47a2-859d-b45314ecd307" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <!--Optional:-->\r
+         <ns:DepartureCity>?</ns:DepartureCity>\r
+         <!--Optional:-->\r
+         <ns:ArrivalCity>?</ns:ArrivalCity>\r
+         <!--Optional:-->\r
+         <ns:FlightDate>?</ns:FlightDate>\r
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/></con:call></con:operation><con:operation id="85c57119-5725-47d9-898e-2eeb97b49fd5" isOneWay="false" action="GetRandomFlights" name="GetRandomFlights" bindingOperationName="GetRandomFlights" type="Request-Response" outputName="GetRandomFlightsResponse" inputName="GetRandomFlights" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="361e2fe0-0c7d-435f-aa8c-f78b579d7a96" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetRandomFlights>\r
+         <!--Optional:-->\r
+         <ns:Count>?</ns:Count>\r
+      </ns:GetRandomFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetRandomFlights"/></con:call></con:operation><con:operation id="b208ae06-67d3-4971-be8b-daab2a2e6bc5" isOneWay="false" action="UpdateFlightOrder" name="UpdateFlightOrder" bindingOperationName="UpdateFlightOrder" type="Request-Response" outputName="UpdateFlightOrderResponse" inputName="UpdateFlightOrder" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="19950422-2e80-4ec3-92c0-2f200d282325" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:UpdateFlightOrder>\r
+         <!--Optional:-->\r
+         <ns:OrderNumber>?</ns:OrderNumber>\r
+         <!--Optional:-->\r
+         <ns:FlightNumber>?</ns:FlightNumber>\r
+         <!--Optional:-->\r
+         <ns:DepartureDate>?</ns:DepartureDate>\r
+         <!--Optional:-->\r
+         <ns:FlightClass>?</ns:FlightClass>\r
+         <!--Optional:-->\r
+         <ns:CustomerName>?</ns:CustomerName>\r
+         <!--Optional:-->\r
+         <ns:NumberOfTickets>?</ns:NumberOfTickets>\r
+      </ns:UpdateFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:wsaConfig mustUnderstand="NONE" version="200508" action="UpdateFlightOrder"/></con:call></con:operation></con:interface><con:testSuite id="5c06e7bd-a15a-42bc-a303-7bf57d653942" name="TNR"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="2defc9bf-c242-4413-ab72-01215d55998f" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Cities" searchProperties="true"><con:settings/><con:testStep type="request" id="99525d84-8c3a-4d43-b575-9208e8b799ee" name="GetCities"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetCities</con:operation><con:request name="GetCities" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9e18264d-5104-4d2d-8d72-c37a64cb7d0d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetCities>\r
+         <ns:city_initials></ns:city_initials>\r
+      </ns:GetCities>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="2c0c3866-b55d-44c9-8bb3-f24d06c90344" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="635fee98-a5da-4d00-aa45-5d948a4db591" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="fffef598-bac8-4d8b-bf5b-1c5130b477d6" name="Contains"><con:configuration><token>GetCitiesResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetCities"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="bbcfb4f9-4e80-488d-a1d0-aa97d9f4ac45" name="GetCity"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetCities</con:operation><con:request name="GetCity" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9e18264d-5104-4d2d-8d72-c37a64cb7d0d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetCities>\r
+         <ns:city_initials></ns:city_initials>\r
+      </ns:GetCities>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="2c0c3866-b55d-44c9-8bb3-f24d06c90344" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="635fee98-a5da-4d00-aa45-5d948a4db591" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="fffef598-bac8-4d8b-bf5b-1c5130b477d6" name="Contains"><con:configuration><token>GetCitiesResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetCities"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="cb08b70e-d3b3-40a1-9075-48097aaae908" name="GetCityError"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetCities</con:operation><con:request name="GetCityError" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9e18264d-5104-4d2d-8d72-c37a64cb7d0d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetCities>\r
+         <ns:city_initials>PPA</ns:city_initials>\r
+      </ns:GetCities>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="2c0c3866-b55d-44c9-8bb3-f24d06c90344" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="635fee98-a5da-4d00-aa45-5d948a4db591" name="Valid HTTP Status Codes"><con:configuration><codes>500</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="fffef598-bac8-4d8b-bf5b-1c5130b477d6" name="Contains"><con:configuration><token>City not in list</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetCities"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="e5900b0b-9c48-4f94-80fa-71ac33121428" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Flights" searchProperties="true"><con:settings/><con:testStep type="request" id="9a63c018-e50c-4520-be1d-28ed1f897963" name="GetAllFlights"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetAllFlights" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity></ns:DepartureCity>\r
+         <ns:ArrivalCity></ns:ArrivalCity>\r
+         <ns:FlightDate>${#Project#Date}</ns:FlightDate>\r
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>GetFlightsResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="f445cd16-1d65-4564-9534-29bf94b1bab1" name="GetRandomFlights"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetRandomFlights</con:operation><con:request name="GetRandomFlights" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="3c2fcba1-8d8f-48a9-ae20-2ebef025af3d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetRandomFlights>\r
+         <!--Optional:-->\r
+         <ns:Count>5</ns:Count>\r
+      </ns:GetRandomFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="50a27195-46a2-4c8a-978e-fe9da32f8f50" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="26f16800-a2eb-433f-8afa-22c44bd49b99" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5fec9053-4e6c-4f68-be42-6b4876bc8e21" name="Contains"><con:configuration><token>GetRandomFlightsResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetRandomFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="89cf48eb-5edd-4dbb-a38e-205b67af754d" name="GetFlightDepartureArrivalDate"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetFlightDepartureArrivalDate" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity>${#Project#Depart}</ns:DepartureCity>
+         <ns:ArrivalCity>${#Project#Arrivee}</ns:ArrivalCity>
+         <ns:FlightDate>${#Project#Date}</ns:FlightDate>
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>GetFlightsResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="23bf58fe-b761-43a5-b5e7-e07e0624a74d" name="GetFlightDepartureError"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetFlightDepartureError" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity>Nantes</ns:DepartureCity>
+         <ns:ArrivalCity>${#Project#Arrivee}</ns:ArrivalCity>
+         <ns:FlightDate>${#Project#Date}</ns:FlightDate>
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>500</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>City not in list</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="04957289-3a54-48d6-9109-1202e38cc0cc" name="GetFlightArrivalError"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetFlightArrivalError" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity>${#Project#Arrivee}</ns:DepartureCity>
+         <ns:ArrivalCity>New York</ns:ArrivalCity>
+         <ns:FlightDate>${#Project#Date}</ns:FlightDate>
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>500</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>City not in list</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="8f0e9364-51d4-407e-8744-61a47f7231e3" name="GetFlightFromatError"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetFlightFromatError" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity>${#Project#Depart}</ns:DepartureCity>
+         <ns:ArrivalCity>${#Project#Arrivee}</ns:ArrivalCity>
+         <ns:FlightDate>2024-13-02</ns:FlightDate>
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>500</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>Incorrect date format</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="07783242-da50-4be1-a805-b8a7040deba0" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Orders" searchProperties="true"><con:settings/><con:testStep type="request" id="4971dab4-f35b-4e7d-bf3f-d54659075b40" name="GetCustomerOrders"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlightOrders</con:operation><con:request name="GetCustomerOrders" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="db6b48f5-901f-49e2-a68a-2b9091c60001"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlightOrders>\r
+         <ns:CustomerName>John Doe</ns:CustomerName>\r
+         <ns:OrderNumber></ns:OrderNumber>\r
+      </ns:GetFlightOrders>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1fecd019-8488-49b4-acdc-469494efd820" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="d1c4e411-ea97-4d9e-9109-e547f5331a69" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f1454705-e924-4424-becd-7dd9381c6aa7" name="Contains"><con:configuration><token>GetFlightOrdersResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlightOrders"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="e15e3ed4-869b-4f09-be8c-ee29938fec49" name="GetOrder"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlightOrders</con:operation><con:request name="GetOrder" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="db6b48f5-901f-49e2-a68a-2b9091c60001"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlightOrders>\r
+         <ns:CustomerName></ns:CustomerName>\r
+         <ns:OrderNumber>1</ns:OrderNumber>\r
+      </ns:GetFlightOrders>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1fecd019-8488-49b4-acdc-469494efd820" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="d1c4e411-ea97-4d9e-9109-e547f5331a69" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f1454705-e924-4424-becd-7dd9381c6aa7" name="Contains"><con:configuration><token>GetFlightOrdersResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlightOrders"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="90b6d24e-73f2-47d9-b342-9e2e959ca947" name="GetFlight"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>GetFlights</con:operation><con:request name="GetFlight" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="af9ad280-9742-4dcf-a9d3-5844f0005316"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:GetFlights>\r
+         <ns:DepartureCity>${#Project#Depart}</ns:DepartureCity>
+         <ns:ArrivalCity>${#Project#Arrivee}</ns:ArrivalCity>
+         <ns:FlightDate>${#Project#Date}</ns:FlightDate>
+      </ns:GetFlights>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="113ffb10-6538-4ddf-aae4-88756d01e3f3" name="SOAP Response"/><con:assertion type="Valid HTTP Status Codes" id="41a32e0c-3efd-4086-8b60-c15c7b22dcc2" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3d3ed072-2dff-42ab-8aa1-997380bd0051" name="Contains"><con:configuration><token>GetFlightsResult</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetFlights"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="Flight" id="16880dd4-6df1-4965-92bf-9792abfc90eb"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>FlightNumber</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>GetFlight</con:sourceStep><con:sourcePath>//*:Flight/*:FlightNumber</con:sourcePath><con:targetType>_FlightNumber</con:targetType><con:targetStep>#Project#</con:targetStep><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" id="14660e12-08f1-42d7-ada7-669ac0417494" name="BookFlight"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>CreateFlightOrder</con:operation><con:request name="BookFlight" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4e4a7308-070f-4b95-84c3-ba0bdec0f571"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:CreateFlightOrder>\r
+         <ns:CustomerName>DUPONT François</ns:CustomerName>\r
+         <ns:DepartureDate>${#Project#Date}</ns:DepartureDate>\r
+         <ns:FlightNumber>${#Project#_FlightNumber}</ns:FlightNumber>\r
+         <ns:NumberOfTickets>1</ns:NumberOfTickets>\r
+         <ns:FlightClass>First</ns:FlightClass>\r
+      </ns:CreateFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="380963ab-3326-4c41-9b52-6bd37dd496c5" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CreateFlightOrder"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="Order" id="493ab7d9-7100-47bb-91e1-00e173e9441e"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>FlightNumber</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>BookFlight</con:sourceStep><con:sourcePath>//*:CreateFlightOrderResult/*:OrderNumber</con:sourcePath><con:targetType>_OrderNumber</con:targetType><con:targetStep>#Project#</con:targetStep><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" id="c645ea6c-e787-4e2a-ba40-fce8309ae1eb" name="UpdateOrder"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>UpdateFlightOrder</con:operation><con:request name="UpdateOrder" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="f937dd4e-1b34-49a7-bff8-a4d991527cc5"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:UpdateFlightOrder>\r
+         <ns:OrderNumber>${#Project#_OrderNumber}</ns:OrderNumber>\r
+         <ns:FlightNumber>${#Project#_FlightNumber}</ns:FlightNumber>\r
+         <ns:DepartureDate>${#Project#Date}</ns:DepartureDate>\r
+         <ns:FlightClass>Economy</ns:FlightClass>\r
+         <ns:CustomerName>DUPONT François</ns:CustomerName>\r
+         <ns:NumberOfTickets>3</ns:NumberOfTickets>\r
+      </ns:UpdateFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="29076bce-cdb0-48c8-9c34-6aad94ecbdf2" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="UpdateFlightOrder"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="59634999-07e5-40e0-ad49-ce70bc4406b9" name="DeleteOrder"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>Application</con:interface><con:operation>DeleteFlightOrder</con:operation><con:request name="DeleteOrder" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="e2437678-7050-4fba-a9d4-74978fb39ddc"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:5000/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="ns.flights.py">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ns:DeleteFlightOrder>\r
+         <ns:FlightOrder>${#Project#_OrderNumber}</ns:FlightOrder>\r
+      </ns:DeleteFlightOrder>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1120516c-2273-42bf-a2a0-2d360b76a9f4" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="DeleteFlightOrder"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties><con:property><con:name>Depart</con:name><con:value>Paris</con:value></con:property><con:property><con:name>Arrivee</con:name><con:value>London</con:value></con:property><con:property><con:name>Date</con:name><con:value>2023-12-08</con:value></con:property><con:property><con:name>_FlightNumber</con:name><con:value>10535</con:value></con:property><con:property><con:name>_OrderNumber</con:name><con:value>86</con:value></con:property></con:properties><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

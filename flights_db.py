@@ -259,7 +259,10 @@ class   sqlite_db ():
             return -2
 
         if (flight_date.find('-') > 0):
-            day_name = self.get_week_day (flight_date)
+            try:
+                day_name = self.get_week_day (flight_date)
+            except:
+                return -3
         sql = 'SELECT 	f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM 	Flights f  '
         criterias = ''
         if (len(departure_city) > 0):
@@ -522,7 +525,8 @@ class   sqlite_db ():
             cur.execute(sql)
             self.update_seats_available(flight_number, tickets_ordered_old)
             self.update_seats_available(flight_number, -1 * int(number_of_tickets))
-        return (self.get_orders(order_number, '')[0])
+        orders = self.get_orders (str(order_number), '')
+        return (orders[0])
 
     def delete_flight_order (self, order_number):
         orders = self.get_orders (order_number, '')
