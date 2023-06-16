@@ -355,6 +355,8 @@ def CreateOrder():
             response = make_response(json_string, 500, )
             response.headers["Content-Type"] = "application/json"
             return response
+        elif (new_order == -4):
+            return (jsonify({"error": "Flight not exists ".format(FlightNumber)}), 500)
         elif (new_order==-3):
             json_string = jsonify({"error": "No more seats available in flight  : {0} ".format(FlightNumber)})
             response = make_response(json_string, 500, )
@@ -365,6 +367,8 @@ def CreateOrder():
             response = make_response(json_string, 500, )
             response.headers["Content-Type"] = "application/json"
             return response
+        elif (new_order == -6):
+            return (jsonify({"error": "Flight not available for departure date ".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(new_order.__dict__)
             response = make_response(json_string, 200, )
@@ -407,7 +411,7 @@ def UpdateOrder(OrderNumber):
         elif (upd_order == -4):
             return (jsonify({"error": "Ordered tickets cannot be more than 10 ".format(FlightNumber)}), 500)
         elif (upd_order == -5):
-            return (jsonify({"error": "Flight not avilable for departure date ".format(FlightNumber)}), 500)
+            return (jsonify({"error": "Flight not available for departure date ".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(upd_order.__dict__)
             response = make_response(json_string, 200, )
