@@ -480,8 +480,8 @@ class   sqlite_db ():
         #  departure_date = get_flight_datetime('2021-02-05', flight.DepartureTime)
         departure_date = self.get_flight_datetime(departure_date, flight.DepartureTime)
 
-        sql = 'INSERT INTO Orders (CustomerName, DepartureDate, FlightNumber, TicketsOrdered, Class, TotalPrice) values(?, ?, ?, ?, ?, ?)'
-        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_id(flight_class), total_price)
+        sql = 'INSERT INTO Orders (CustomerName, DepartureDate, FlightNumber, TicketsOrdered, Class, TotalPrice, AgentsName, SendSignatureWithOrder) values(?, ?, ?, ?, ?, ?, ?, ?)'
+        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_id(flight_class), total_price, 'Test', 'N')
         with self.con:
             self.con.execute(sql, data)
             cursor = self.con.cursor()

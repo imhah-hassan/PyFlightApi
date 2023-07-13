@@ -163,10 +163,12 @@ def GetRandomFlights():
         Count = 10
     else:
         Count = int(request.args.get('Count'))
+    date = "" if request.args.get('Date') is None else request.args.get('Date')
     for i in range (Count):
-        futur = randrange (20) + 30
-        date = datetime.date.today()+ relativedelta(days=futur)
-        date = date.strftime('%Y-%m-%d')
+        if date=='':
+            futur = randrange (20) + 30
+            date = datetime.date.today()+ relativedelta(days=futur)
+            date = date.strftime('%Y-%m-%d')
         DepartureCity = cities[randrange(10)].CityName
         ArrivalCity = DepartureCity
         while (ArrivalCity == DepartureCity):
