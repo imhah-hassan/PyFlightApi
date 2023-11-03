@@ -19,9 +19,9 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Your test name\", function () {\r",
+									"pm.test(\"Token received\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.globals.set (\"token\", jsonData.token);\r",
+									"    pm.collectionVariables.set (\"token\", jsonData.token);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -39,21 +39,9 @@
 					},
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "username",
-									"value": "clarice",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "onepoint",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -61,6 +49,10 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"rene\",\r\n    \"password\" : \"onepoint\"\r\n}"
+						},
 						"url": {
 							"raw": "{{endpoint}}/login",
 							"host": [
@@ -80,13 +72,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+									"pm.test(\"Status code is 201 \", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201]);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Admin profil needed to delete city\", function () {\r",
+									"pm.test(\"Admin profil needed\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.false).to.eql(\"Admin profil needed to delete city \");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Admin profil needed to create city\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -104,16 +96,21 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
 								"type": "text"
 							}
 						],
@@ -202,9 +199,9 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Your test name\", function () {\r",
+									"pm.test(\"save token\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.globals.set (\"token\", jsonData.token);\r",
+									"    pm.collectionVariables.set (\"token\", jsonData.token);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -222,21 +219,9 @@
 					},
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "onepoint",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "marc",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -244,13 +229,15 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"marc\",\r\n    \"password\" : \"onepoint\"\r\n}"
+						},
 						"url": {
-							"raw": "http://localhost:5000/login",
-							"protocol": "http",
+							"raw": "{{endpoint}}/login",
 							"host": [
-								"localhost"
+								"{{endpoint}}"
 							],
-							"port": "5000",
 							"path": [
 								"login"
 							]
@@ -289,6 +276,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -297,8 +294,8 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -409,22 +406,27 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
-								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"CityInitials\":\"CMN\",\r\n   \"CityName\":\"Ville de Casablanca\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{endpoint}}/Cities/CMN",
@@ -500,7 +502,7 @@
 			"name": "Cities",
 			"item": [
 				{
-					"name": "Login",
+					"name": "GetCityByCode",
 					"event": [
 						{
 							"listen": "test",
@@ -509,64 +511,15 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Your test name\", function () {\r",
+									"pm.test(\"City name is Paris\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.globals.set (\"token\", jsonData.token);\r",
+									"    pm.expect(jsonData[0].CityName).to.eql(\"Paris\");\r",
 									"});"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true,
-							"user-agent": true,
-							"accept": true,
-							"accept-encoding": true,
-							"connection": true
-						}
-					},
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "username",
-									"value": "john",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "HP",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:5000/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetCityByCode",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"host": true,
@@ -667,6 +620,7 @@
 									"pm.test(\"Cities count\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.eql(10);\r",
+									"    console.log(\"Cities count : \" + jsonData.length)\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -748,6 +702,62 @@
 					]
 				},
 				{
+					"name": "LoginAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set (\"token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"marc\",\r\n    \"password\" : \"onepoint\"\r\n}"
+						},
+						"url": {
+							"raw": "{{endpoint}}/login",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "AddCity",
 					"event": [
 						{
@@ -778,16 +788,21 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
 								"type": "text"
 							}
 						],
@@ -879,7 +894,7 @@
 									"\r",
 									"pm.test(\"Citie Casablanca created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca\");\r",
+									"    pm.expect(jsonData.CityName).to.eql(\"Casablanca-maroc\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -897,22 +912,32 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Content-Type",
+								"value": "application/json",
 								"type": "text"
 							},
 							{
-								"key": "Content-Type",
+								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"CityInitials\":\"CMN\",\r\n   \"CityName\":\"Casablanca\"\r\n}"
+							"raw": "{\r\n   \"CityInitials\":\"CMN\",\r\n   \"CityName\":\"Casablanca-maroc\"\r\n}"
 						},
 						"url": {
 							"raw": "{{endpoint}}/Cities/CMN",
@@ -1014,6 +1039,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1022,14 +1057,14 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"CityInitials\":\"CMN\",\r\n   \"CityName\":\"Ville de Casablanca\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{endpoint}}/Cities/CMN",
@@ -1105,19 +1140,8 @@
 			"name": "Flights",
 			"item": [
 				{
-					"name": "SearchFlights",
+					"name": "LoginUser",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const moment = require('moment');\r",
-									"var days = Math.random() * 15 + 5\r",
-									"pm.variables.set (\"Date\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -1125,10 +1149,9 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"\r",
-									"pm.test(\"Flights count greater than 0\", function () {\r",
+									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
+									"    pm.collectionVariables.set (\"token\", jsonData.token);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1145,8 +1168,86 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"rene\",\r\n    \"password\" : \"onepoint\"\r\n}"
+						},
+						"url": {
+							"raw": "{{endpoint}}/login",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchFlights",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');\r",
+									"var days = Math.random() * 15 + 5\r",
+									"pm.collectionVariables.set (\"Date\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Flights count greater than 0\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
+									"    pm.collectionVariables.set(\"FlightNumber\", jsonData[0].FlightNumber)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{endpoint}}/Flights?DepartureCity=London&ArrivalCity=Denver&Date={{Date}}",
 							"host": [
@@ -1245,7 +1346,7 @@
 									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
-									"    pm.environment.set(\"FlightNumber\", jsonData[0].FlightNumber)\r",
+									"    pm.collectionVariables.set(\"FlightNumber\", jsonData[0].FlightNumber)\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1442,7 +1543,7 @@
 									"});\r",
 									"pm.test(\"Your test name\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.globals.set (\"token\", jsonData.token);\r",
+									"    pm.collectionVariables.set (\"token\", jsonData.token);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1460,35 +1561,30 @@
 					},
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "username",
-									"value": "john",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "HP",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"marc\",\r\n    \"password\" : \"onepoint\"\r\n}"
+						},
 						"url": {
-							"raw": "http://localhost:5000/login",
-							"protocol": "http",
+							"raw": "{{endpoint}}/login",
 							"host": [
-								"localhost"
+								"{{endpoint}}"
 							],
-							"port": "5000",
 							"path": [
 								"login"
 							]
@@ -1527,6 +1623,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1535,8 +1641,8 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -1633,9 +1739,9 @@
 									"pm.test(\"Body matches SeatsAvailable\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.environment.set (\"Price\", jsonData.Price);\r",
-									"    pm.environment.set (\"PriceFirst\", jsonData.PriceFirst);\r",
-									"    pm.environment.set (\"PriceBusiness\", jsonData.PriceBusiness);\r",
+									"    pm.collectionVariables.set (\"Price\", jsonData.Price);\r",
+									"    pm.collectionVariables.set (\"PriceFirst\", jsonData.PriceFirst);\r",
+									"    pm.collectionVariables.set (\"PriceBusiness\", jsonData.PriceBusiness);\r",
 									"});\r",
 									""
 								],
@@ -1654,6 +1760,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1662,14 +1778,14 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Airline\": \"RAM\",\r\n    \"ArrivalCity\": \"Paris\",\r\n    \"ArrivalInitials\": \"PAR\",\r\n    \"ArrivalTime\": \"11:00 AM\",\r\n    \"DepartureCity\": \"Casablanca\",\r\n    \"DepartureInitials\": \"CMN\",\r\n    \"DepartureTime\": \"08:00 AM\",\r\n    \"Price\": 112.0,\r\n    \"PriceFirst\": 126.0,\r\n    \"PriceBusiness\": 150.0,\r\n    \"SeatsAvailable\": 100,\r\n    \"DayOfWeek\": \"Monday\"\r\n}"
+							"raw": "{\r\n    \"FlightNumber\":\"30000\",\r\n    \"Airline\": \"RAM\",\r\n    \"ArrivalCity\": \"Paris\",\r\n    \"ArrivalInitials\": \"PAR\",\r\n    \"ArrivalTime\": \"11:00 AM\",\r\n    \"DepartureCity\": \"Casablanca\",\r\n    \"DepartureInitials\": \"CMN\",\r\n    \"DepartureTime\": \"08:00 AM\",\r\n    \"Price\": 112.0,\r\n    \"PriceFirst\": 126.0,\r\n    \"PriceBusiness\": 150.0,\r\n    \"SeatsAvailable\": 100,\r\n    \"DayOfWeek\": \"Monday\"\r\n}"
 						},
 						"url": {
 							"raw": "{{endpoint}}/Flights",
@@ -1765,7 +1881,7 @@
 									"pm.test(\"FlightNumber greater than 20300 \", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData[0].FlightNumber).to.greaterThan(20300);\r",
-									"    pm.environment.set (\"FlightNumber\", jsonData[0].FlightNumber );\r",
+									"    pm.collectionVariables.set (\"FlightNumber\", jsonData[0].FlightNumber );\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1873,6 +1989,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1881,8 +2007,8 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -1990,6 +2116,16 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -1998,14 +2134,14 @@
 								"type": "text"
 							},
 							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
+								"key": "Accept",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"CityInitials\":\"CMN\",\r\n   \"CityName\":\"Ville de Casablanca\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{endpoint}}/Cities/CMN",
@@ -2076,15 +2212,118 @@
 					]
 				},
 				{
+					"name": "GetFlight_1023",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches SeatsAvailable\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"PriceFirst\", jsonData.PriceFirst);\r",
+									"    pm.collectionVariables.set(\"PriceBusiness\", jsonData.PriceBusiness);\r",
+									"    pm.collectionVariables.set(\"Price\", jsonData.Price);\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/Flights/1023",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"Flights",
+								"1023"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetFlight",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{endpoint}}/Flights/{{FlightNumber}}",
+									"host": [
+										"{{endpoint}}"
+									],
+									"path": [
+										"Flights",
+										"{{FlightNumber}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 00:36:40 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "256"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Airline\": \"NW\",\n    \"ArrivalCity\": \"London\",\n    \"ArrivalTime\": \"05:31 PM\",\n    \"DepartureCity\": \"Paris\",\n    \"DepartureTime\": \"03:50 PM\",\n    \"FlightNumber\": 11120,\n    \"Price\": 147.4,\n    \"PriceFirst\": 176.88,\n    \"PriceBusiness\": 191.62,\n    \"SeatsAvailable\": 250,\n    \"DayOfWeek\": \"Friday\"\n}"
+						}
+					]
+				},
+				{
 					"name": "UpdateFlightPrice",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var price = parseFloat(pm.environment.get (\"Price\"));\r",
-									"var priceFirst = parseFloat(pm.environment.get (\"PriceFirst\"));\r",
-									"var priceBusiness = parseFloat(pm.environment.get (\"PriceBusiness\"));\r",
+									"var price = parseFloat(pm.collectionVariables.get (\"Price\"));\r",
+									"var priceFirst = parseFloat(pm.collectionVariables.get (\"PriceFirst\"));\r",
+									"var priceBusiness = parseFloat(pm.collectionVariables.get (\"PriceBusiness\"));\r",
 									"\r",
 									"pm.environment.set (\"Price\", price + 10.0);\r",
 									"pm.environment.set (\"PriceFirst\", priceFirst + 10.0);\r",
@@ -2124,16 +2363,21 @@
 						}
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer: {{token}}",
 								"type": "text"
 							}
 						],
@@ -2223,7 +2467,8 @@
 								"exec": [
 									"const moment = require('moment');\r",
 									"var days = Math.random() * 15 + 5\r",
-									"pm.variables.set (\"RandomDate\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
+									"pm.collectionVariables.set (\"Date\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2239,8 +2484,8 @@
 									"pm.test(\"Flights count greater than 0\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.greaterThan(0);\r",
-									"        var jsonData = pm.response.json();\r",
-									"    pm.globals.set(\"tmpNumeroDeVol\", jsonData[0].FlightNumber);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"NumeroDeVol\", jsonData[0].FlightNumber);\r",
 									"\r",
 									"});"
 								],
@@ -2260,7 +2505,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{endpoint}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date={{RandomDate}}",
+							"raw": "{{endpoint}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date={{Date}}",
 							"host": [
 								"{{endpoint}}"
 							],
@@ -2278,7 +2523,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "{{RandomDate}}"
+									"value": "{{Date}}"
 								}
 							]
 						}
@@ -2355,9 +2600,9 @@
 									"});\r",
 									"pm.test(\"Verfiy order number is greate than 80\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.OrderNumber).to.greaterThan(80);\r",
-									"    pm.globals.set(\"tmpResa\", jsonData.OrderNumber);\r",
-									"    pm.environment.set(\"Places\", \"2\");\r",
+									"    pm.expect(jsonData.OrderNumber).to.greaterThan(40);\r",
+									"    pm.collectionVariables.set(\"NumResa\", jsonData.OrderNumber);\r",
+									"    pm.collectionVariables.set(\"Places\", \"1\");\r",
 									"\r",
 									"});"
 								],
@@ -2386,7 +2631,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{tmpNumeroDeVol}},\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": 2,\r\n    \"Class\": \"First\"\r\n    }",
+							"raw": "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{NumeroDeVol}},\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": 1,\r\n    \"Class\": \"First\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2471,9 +2716,25 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"places = parseInt(pm.environment.get(\"Places\"))+1;\r",
-									"pm.environment.set(\"Places\", places);\r",
-									"pm.environment.set(\"Classe\", \"First\");"
+									"places = parseInt(pm.collectionVariables.get(\"Places\"))+1;\r",
+									"pm.collectionVariables.set(\"Places\", places);\r",
+									"pm.collectionVariables.set(\"Classe\", \"First\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Customer name is IMHAH\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.CustomerName).to.eql(\"IMHAH\");\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2500,7 +2761,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{tmpNumeroDeVol}},\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": {{Places}},\r\n    \"Class\": \"{{Classe}}\"\r\n    }",
+							"raw": "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{NumeroDeVol}},\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": 3,\r\n    \"Class\": \"First\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2508,13 +2769,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{endpoint}}/FlightOrders/{{tmpResa}}",
+							"raw": "{{endpoint}}/FlightOrders/{{NumResa}}",
 							"host": [
 								"{{endpoint}}"
 							],
 							"path": [
 								"FlightOrders",
-								"{{tmpResa}}"
+								"{{NumResa}}"
 							]
 						}
 					},
@@ -2579,137 +2840,14 @@
 							"body": "{\n    \"Class\": \"First\",\n    \"CustomerName\": \"IMHAH\",\n    \"DepartureDate\": \"2023-1-21 08:00\",\n    \"FlightNumber\": 99558,\n    \"NumberOfTickets\": 3,\n    \"OrderNumber\": 81,\n    \"TotalPrice\": 666.72\n}"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
 				{
-					"name": "DeleteOrder",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test('Body matches \"true\": \"Order deleted\"', function () {\r",
-									"    pm.expect(pm.response.text()).to.include('\"true\":\"Order deleted');\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"host": true,
-							"user-agent": true,
-							"accept": true,
-							"accept-encoding": true,
-							"connection": true
-						}
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{endpoint}}/FlightOrders/{{tmpResa}}",
-							"host": [
-								"{{endpoint}}"
-							],
-							"path": [
-								"FlightOrders",
-								"{{tmpResa}}"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "DeleteOrder",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{endpoint}}/FlightOrders/{{tmpResa}}",
-									"host": [
-										"{{endpoint}}"
-									],
-									"path": [
-										"FlightOrders",
-										"{{tmpResa}}"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Server",
-									"value": "Werkzeug/2.2.2 Python/3.11.1"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 28 Dec 2022 00:39:46 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"true\": \"Order deleted 81 \"\n}"
-						}
-					]
-				},
-				{
-					"name": "DeleteAllOrders",
+					"name": "GetOrders",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -2732,9 +2870,14 @@
 									"    pm.expect(pm.response.text()).to.include('NumberOfTickets');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Your test name\", function () {\r",
+									"pm.test(\"Verify remaining orders equal 10\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.length).to.eql(10);\r",
+									"    pm.expect(jsonData.length).to.be.greaterThan(9);\r",
+									"    if (jsonData.length>10) {\r",
+									"        pm.collectionVariables.set(\"NumResa\", jsonData[10].OrderNumber);\r",
+									"        console.log (jsonData[10].OrderNumber);\r",
+									"    }\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2742,6 +2885,7 @@
 						}
 					],
 					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
 						"disabledSystemHeaders": {
 							"host": true,
 							"user-agent": true,
@@ -2751,7 +2895,7 @@
 						}
 					},
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -2838,6 +2982,134 @@
 							"body": "[\n    {\n        \"Class\": \"Business\",\n        \"CustomerName\": \"John Doe\",\n        \"DepartureDate\": \"2014-7-11 7:59\",\n        \"FlightNumber\": 6232,\n        \"NumberOfTickets\": 1,\n        \"OrderNumber\": 1,\n        \"TotalPrice\": 135.2\n    },\n    {\n        \"Class\": \"First\",\n        \"CustomerName\": \"Fred Smith\",\n        \"DepartureDate\": \"2014-7-12 7:59\",\n        \"FlightNumber\": 4295,\n        \"NumberOfTickets\": 3,\n        \"OrderNumber\": 2,\n        \"TotalPrice\": 1165.68\n    },\n    {\n        \"Class\": \"Economy\",\n        \"CustomerName\": \"Mary Parker\",\n        \"DepartureDate\": \"2014-7-13 7:59\",\n        \"FlightNumber\": 4194,\n        \"NumberOfTickets\": 5,\n        \"OrderNumber\": 3,\n        \"TotalPrice\": 803\n    },\n    {\n        \"Class\": \"First\",\n        \"CustomerName\": \"Jon Baker\",\n        \"DepartureDate\": \"2014-7-14 7:59\",\n        \"FlightNumber\": 4219,\n        \"NumberOfTickets\": 4,\n        \"OrderNumber\": 4,\n        \"TotalPrice\": 776.16\n    },\n    {\n        \"Class\": \"Business\",\n        \"CustomerName\": \"Kim Smith\",\n        \"DepartureDate\": \"2014-7-15 19:59\",\n        \"FlightNumber\": 6195,\n        \"NumberOfTickets\": 6,\n        \"OrderNumber\": 5,\n        \"TotalPrice\": 1376.46\n    },\n    {\n        \"Class\": \"First\",\n        \"CustomerName\": \"Joe Shmoe\",\n        \"DepartureDate\": \"2014-7-16 19:59\",\n        \"FlightNumber\": 4210,\n        \"NumberOfTickets\": 1,\n        \"OrderNumber\": 6,\n        \"TotalPrice\": 202.44\n    },\n    {\n        \"Class\": \"Business\",\n        \"CustomerName\": \"Jane Doe\",\n        \"DepartureDate\": \"2014-7-17 19:59\",\n        \"FlightNumber\": 3291,\n        \"NumberOfTickets\": 9,\n        \"OrderNumber\": 7,\n        \"TotalPrice\": 1175.85\n    },\n    {\n        \"Class\": \"First\",\n        \"CustomerName\": \"Bob Johnson\",\n        \"DepartureDate\": \"2014-7-18 19:59\",\n        \"FlightNumber\": 6218,\n        \"NumberOfTickets\": 2,\n        \"OrderNumber\": 8,\n        \"TotalPrice\": 425.92\n    },\n    {\n        \"Class\": \"Business\",\n        \"CustomerName\": \"Jack Barnes\",\n        \"DepartureDate\": \"2014-7-19 19:59\",\n        \"FlightNumber\": 6232,\n        \"NumberOfTickets\": 1,\n        \"OrderNumber\": 9,\n        \"TotalPrice\": 135.2\n    },\n    {\n        \"Class\": \"Economy\",\n        \"CustomerName\": \"Jane Hansen\",\n        \"DepartureDate\": \"2014-7-20 19:59\",\n        \"FlightNumber\": 4214,\n        \"NumberOfTickets\": 2,\n        \"OrderNumber\": 10,\n        \"TotalPrice\": 321.6\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "DeleteOrder",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Body matches \"true\": \"Order deleted\"', function () {\r",
+									"    pm.expect(pm.response.text()).to.include('\"true\":\"Order deleted');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/FlightOrders/{{NumResa}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"FlightOrders",
+								"{{NumResa}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "DeleteOrder",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{endpoint}}/FlightOrders/{{tmpResa}}",
+									"host": [
+										"{{endpoint}}"
+									],
+									"path": [
+										"FlightOrders",
+										"{{tmpResa}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.2.2 Python/3.11.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Dec 2022 00:39:46 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"true\": \"Order deleted 81 \"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2895,6 +3167,48 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "PriceFirst",
+			"value": ""
+		},
+		{
+			"key": "PriceBusiness",
+			"value": ""
+		},
+		{
+			"key": "Price",
+			"value": ""
+		},
+		{
+			"key": "Date",
+			"value": ""
+		},
+		{
+			"key": "NumeroDeVol",
+			"value": ""
+		},
+		{
+			"key": "NumResa",
+			"value": ""
+		},
+		{
+			"key": "Places",
+			"value": ""
+		},
+		{
+			"key": "Classe",
+			"value": ""
+		},
+		{
+			"key": "FlightNumber",
+			"value": ""
 		}
 	]
 }

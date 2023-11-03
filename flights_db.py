@@ -259,7 +259,10 @@ class   sqlite_db ():
             return -2
 
         if (flight_date.find('-') > 0):
-            day_name = self.get_week_day (flight_date)
+            try:
+                day_name = self.get_week_day (flight_date)
+            except:
+                return -3
         sql = 'SELECT 	f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM 	Flights f  '
         criterias = ''
         if (len(departure_city) > 0):

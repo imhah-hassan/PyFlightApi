@@ -21,7 +21,7 @@ SET PATH=C:\Apps\Python310;C:\Apps\Python310\Scripts;%PATH%
 
 Exécuter une ligne de commande batch Windows : 
 	SET PATH=C:\Users\h.imhah\AppData\Roaming\npm;%PATH%
-	newman run jenkins\JenkinsDemo.json --disable-unicode --reporters cli,junit
+	newman run tests\jenkins\JenkinsDemo.json --disable-unicode --reporters cli,junit
 
  
 Publier le rapport des résultats des tests Junit

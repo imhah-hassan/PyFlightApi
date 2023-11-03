@@ -1,6 +1,6 @@
-S:
-CD S:\github\PyFlightApi
+pip install pyinstaller
+C:
+CD C:\DVLP\Py\FlightRestApi
 
-REM pyinstaller.exe --onefile --clean  flight_rest.py
-pyinstaller.exe --onefile --clean  flight_soap.py
+pyinstaller.exe --onefile --clean  flight_rest.py
 
