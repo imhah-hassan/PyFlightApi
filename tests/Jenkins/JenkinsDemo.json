@@ -1,0 +1,503 @@
+{
+	"info": {
+		"_postman_id": "94f4c6f1-096c-41a6-a30e-a99067bc7d2a",
+		"name": "JenkinsDemo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"FlightNumber\", jsonData[0].FlightNumber);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');\r",
+							"var days = Math.random() * 100 + 5\r",
+							"pm.collectionVariables.set (\"Date\", moment(new Date()).add(days, 'days').format('YYYY-MM-DD'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Flights?DepartureCity=Los Angeles&ArrivalCity=San Francisco&Date={{Date}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Los Angeles"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "San Francisco"
+						},
+						{
+							"key": "Date",
+							"value": "{{Date}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlightByFlightNumber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Flights/{{FlightNumber}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Flights",
+						"{{FlightNumber}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AllFlightsOrders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"CustomerName\", jsonData[0].CustomerName);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/FlightOrders",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlightsOrdersByCunstomerNmae",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/FlightOrders?CustomerName={{CustomerName}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders"
+					],
+					"query": [
+						{
+							"key": "CustomerName",
+							"value": "{{CustomerName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"OrderNumber\", jsonData.OrderNumber);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"Name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"DepartureDate\":\"{{Date}}\",\r\n    \"FlightNumber\": {{FlightNumber}},\r\n    \"CustomerName\": \"{{Name}}\",\r\n    \"NumberOfTickets\": 1,\r\n    \"Class\": \"Economy\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/FlightOrders",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"DepartureDate\":\"2023-12-30\",\r\n    \"FlightNumber\": 1106,\r\n    \"CustomerName\": \"IMHAH\",\r\n    \"NumberOfTickets\": 2,\r\n    \"Class\": \"First\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/FlightOrders/{{OrderNumber}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderNumber}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(pm.info.requestName + \" Class First\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Class).to.eql(\"First\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/FlightOrders/{{OrderNumber}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderNumber}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(pm.info.requestName + \" Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(pm.info.requestName + ' Body matches \"true\": \"Order deleted\"', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"true\":\"Order deleted');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true,
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/FlightOrders/{{OrderNumber}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderNumber}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteOrder",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/FlightOrders/{{tmpResa}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"FlightOrders",
+								"{{tmpResa}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.2.2 Python/3.11.1"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Dec 2022 00:39:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"true\": \"Order deleted 81 \"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "Date",
+			"value": ""
+		},
+		{
+			"key": "FlightNumber",
+			"value": ""
+		},
+		{
+			"key": "CustomerName",
+			"value": ""
+		},
+		{
+			"key": "Name",
+			"value": ""
+		},
+		{
+			"key": "OrderNumber",
+			"value": ""
+		}
+	]
+}

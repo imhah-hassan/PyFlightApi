@@ -1,0 +1,45 @@
+{
+	"id": "4b611f58-d7d2-497b-bb61-01a97767cdcd",
+	"name": "Formation",
+	"values": [
+		{
+			"key": "endpoint",
+			"value": "http://localhost:5000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Price",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "PriceFirst",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "PriceBusiness",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Places",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Classe",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-11-02T17:24:11.610Z",
+	"_postman_exported_using": "Postman/10.16.0"
+}

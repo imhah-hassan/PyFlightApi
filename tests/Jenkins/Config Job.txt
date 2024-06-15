@@ -1,0 +1,28 @@
+Installer newman (node.js nécessaire)
+npm install -g newman
+
+Exécuter la collection avec newman (exporter la collection depuis Postman)
+newman run DemoCLI.postman_collection.json
+
+Installer Jenkins avec les plugins Git, Junit, Test Results Analyzer, Git et Git Client
+
+Configurer un « Job » Jenkins
+Gestion de code source : Git
+Repository URL : https://github.com/imhah-hassan/PyFlightApi.git
+Branch : */REST_0323
+
+Construire périodiquement : 
+H/2 * * * *
+
+Exécuter une ligne de commande batch Windows :
+SET PATH=C:\Apps\Python310;C:\Apps\Python310\Scripts;%PATH%
+	pip install PyJWT requests Flask python-dateutil
+	start python flight_rest.py
+
+Exécuter une ligne de commande batch Windows : 
+	SET PATH=C:\Users\h.imhah\AppData\Roaming\npm;%PATH%
+	newman run tests\jenkins\JenkinsDemo.json --disable-unicode --reporters cli,junit
+
+ 
+Publier le rapport des résultats des tests Junit
+newman/*.xml

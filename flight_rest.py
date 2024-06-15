@@ -42,11 +42,12 @@ def token_required(f):
         # ensure the jwt-token is passed with the headers
         if 'Authorization' in request.headers:
             token = str(request.headers['Authorization'])
-            token = token.replace(' ', '').replace('Bearer:', '')
+            token = token.replace('Bearer ', '')
         if not token: # throw error if no token provided
             return make_response(jsonify({"message": "A valid token is missing!"}), 401)
         try:
            # decode the token to obtain user public_id
+            logging.info("Read token :", token)
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
             current_user = db.get_user_by_id(data['public_id'])[0]
         except:
@@ -59,20 +60,20 @@ def token_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     db = flights_db.sqlite_db()
-    auth = request.authorization
+    if (request.is_json):
+        data = request.get_json()
+        user = db.get_user(data['username'])[0]
 
-    if not auth or not auth.username or not auth.password:
+        if user.password == data['password']:
+            token = jwt.encode(
+                {'public_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+                app.config['SECRET_KEY'])
+            logging.info("Create token :" +  token)
+            return jsonify({'token': token})
+
         return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
-
-    user = db.get_user(auth.username)[0]
-
-    if user.password == auth.password:
-        token = jwt.encode(
-            {'public_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-            app.config['SECRET_KEY'])
-        return jsonify({'token': token})
-
-    return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
+    else:
+        json_string = {"false": "Bad request json body "}
 
 
 #   GET http://localhost:5000/Cities?CityName=Paris
@@ -103,7 +104,7 @@ def CreateCity(user):
             city = db.create_city(data['CityInitials'], data['CityName'])
         json_string = json.dumps(city.__dict__)
     else:
-        json_string = {"false": "Admin profil needed to delete city "}
+        json_string = {"message": "Admin profil needed to create city"}
 
     response = make_response(json_string,201,)
     response.headers["Content-Type"] = "application/json"
@@ -126,7 +127,7 @@ def UpdateCity(user, CityInitials):
             upd_city = db.update_city(CityInitials, new_city_initials, new_city_name)
             json_string = json.dumps(upd_city.__dict__)
     else:
-        json_string = {"false": "Admin profil needed to delete city "}
+        json_string = {"false": "Admin profil needed to update city "}
 
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
@@ -163,10 +164,12 @@ def GetRandomFlights():
         Count = 10
     else:
         Count = int(request.args.get('Count'))
+    date = "" if request.args.get('Date') is None else request.args.get('Date')
     for i in range (Count):
-        futur = randrange (20) + 30
-        date = datetime.date.today()+ relativedelta(days=futur)
-        date = date.strftime('%Y-%m-%d')
+        if date=='':
+            futur = randrange (20) + 30
+            date = datetime.date.today()+ relativedelta(days=futur)
+            date = date.strftime('%Y-%m-%d')
         DepartureCity = cities[randrange(10)].CityName
         ArrivalCity = DepartureCity
         while (ArrivalCity == DepartureCity):
@@ -355,6 +358,8 @@ def CreateOrder():
             response = make_response(json_string, 500, )
             response.headers["Content-Type"] = "application/json"
             return response
+        elif (new_order == -4):
+            return (jsonify({"error": "Flight not exists ".format(FlightNumber)}), 500)
         elif (new_order==-3):
             json_string = jsonify({"error": "No more seats available in flight  : {0} ".format(FlightNumber)})
             response = make_response(json_string, 500, )
@@ -365,6 +370,8 @@ def CreateOrder():
             response = make_response(json_string, 500, )
             response.headers["Content-Type"] = "application/json"
             return response
+        elif (new_order == -6):
+            return (jsonify({"error": "Flight not available for departure date ".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(new_order.__dict__)
             response = make_response(json_string, 200, )
@@ -407,7 +414,7 @@ def UpdateOrder(OrderNumber):
         elif (upd_order == -4):
             return (jsonify({"error": "Ordered tickets cannot be more than 10 ".format(FlightNumber)}), 500)
         elif (upd_order == -5):
-            return (jsonify({"error": "Flight not avilable for departure date ".format(FlightNumber)}), 500)
+            return (jsonify({"error": "Flight not available for departure date ".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(upd_order.__dict__)
             response = make_response(json_string, 200, )
