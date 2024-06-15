@@ -305,6 +305,7 @@ class   sqlite_db ():
         sql = 'SELECT 	f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM 	Flights f  '
         sql += ' WHERE f.FlightNumber  = ' + str(flight_number) + ';'
         logging.info (sql)
+        flights = []
         with self.con:
             cur = self.con.cursor()
             cur.execute(sql)
@@ -322,9 +323,10 @@ class   sqlite_db ():
                 flight.PriceBusiness = round(row[8], 2)
                 flight.SeatsAvailable = round(row[9], 0)
                 flight.DayOfWeek = row[10]
+                flights.append(flight)
             else:
-                flight=-1
-        return (flight)
+                flights=-1
+        return (flights)
     def delete_flight (self, flight_number):
         fights = self.get_flight (flight_number)
         if fights == -1:
@@ -465,7 +467,8 @@ class   sqlite_db ():
             return (-5)
         if (flight==-1):
             return (-4)
-        total_price = flight.Price * float(tickets_ordered)
+        total_price = round (flight.Price * float(tickets_ordered), 2)
+        total_price = format(total_price, '.2f')
         if (flight.FlightNumber is None):
             return(-2)
         seats_availabe = flight.SeatsAvailable
@@ -474,10 +477,16 @@ class   sqlite_db ():
         if (int(tickets_ordered) > seats_availabe):
             return (-1)
         last_id = 0
+        day_name = self.get_week_day(departure_date)
+        if day_name!=flight.DayOfWeek:
+            # Vol non disponible ce jour
+            return (-6)
+
         #  departure_date = get_flight_datetime('2021-02-05', flight.DepartureTime)
         departure_date = self.get_flight_datetime(departure_date, flight.DepartureTime)
-        sql = 'INSERT INTO Orders (CustomerName, DepartureDate, FlightNumber, TicketsOrdered, Class, TotalPrice) values(?, ?, ?, ?, ?, ?)'
-        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_id(flight_class), total_price)
+
+        sql = 'INSERT INTO Orders (CustomerName, DepartureDate, FlightNumber, TicketsOrdered, Class, TotalPrice, AgentsName, SendSignatureWithOrder) values(?, ?, ?, ?, ?, ?, ?, ?)'
+        data = (customer_name, departure_date, flight_number, tickets_ordered, self.flight_class_id(flight_class), total_price, 'Test', 'N')
         with self.con:
             self.con.execute(sql, data)
             cursor = self.con.cursor()
@@ -511,6 +520,10 @@ class   sqlite_db ():
         if flight_class == 'Business':
             totaPrice = number_of_tickets*flight.PriceBusiness
 
+        totaPrice = round (totaPrice, 2)
+        totaPrice = format(totaPrice, '.2f')
+
+
         departure_date = self.get_flight_datetime(departure_date, flight.DepartureTime)
         sql = 'UPDATE Orders SET Class = '+ str(class_id)
         sql += ', CustomerName = \''+customer_name + "'"
@@ -525,8 +538,7 @@ class   sqlite_db ():
             cur.execute(sql)
             self.update_seats_available(flight_number, tickets_ordered_old)
             self.update_seats_available(flight_number, -1 * int(number_of_tickets))
-        orders = self.get_orders (str(order_number), '')
-        return (orders[0])
+        return (self.get_orders(order_number, '')[0])
 
     def delete_flight_order (self, order_number):
         orders = self.get_orders (order_number, '')

@@ -12,6 +12,12 @@ from spyne.server.wsgi import WsgiApplication
 import logging.config
 
 
+class FlightError(Fault):
+    __namespace__ = 'ns.flights.py'
+    def __init__(self, flightNumber):
+        super(FlightError, self).__init__(
+            faultcode='Filight.FlightNumber',
+            faultstring='Filight  not found %s' % flightNumber)
 class CityError(Fault):
     __namespace__ = 'ns.flights.py'
     def __init__(self, city):
@@ -73,6 +79,16 @@ class FlightsSOAP(ServiceBase):
             return
         elif (flights == -3):
             raise DateError(FlightDate)
+            return
+        else:
+            return flights
+
+    @rpc(Unicode, _returns=Iterable (flights_db.Flight))
+    def GetFlight(ctx, FlightNumber):
+        db = flights_db.sqlite_db()
+        flights = db.get_flight(FlightNumber)
+        if (flights==-1):
+            raise FlightError(FlightNumber)
             return
         else:
             return flights
