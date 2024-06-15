@@ -1,6 +1,6 @@
 import configparser
-config = configparser.ConfigParser()
-config.read('flightapi.ini')
-flight_db=config['Config']['db']
-port=config['Config']['port']
+cfg = configparser.ConfigParser()
+cfg.read('flightapi.ini')
+flight_db=cfg['Config']['db']
+port=cfg['Config']['port']
 
