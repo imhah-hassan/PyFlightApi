@@ -499,6 +499,8 @@ class   sqlite_db ():
         totaPrice = 0
         orders =  self.get_orders (str(order_number), '')
         flight = self.get_flight(flight_number)
+        if flight<0:
+            return (-10)
         if (len(orders)==0):
             return 0
         tickets_ordered_old = orders[0].NumberOfTickets

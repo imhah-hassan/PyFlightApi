@@ -62,6 +62,10 @@ def login_user():
     db = flights_db.sqlite_db()
     if (request.is_json):
         data = request.get_json()
+        users = db.get_user(data['username'])
+        if len(users)==0:
+            return (jsonify({"error": "User not found : {0} ".format(data['username'])}), 200)
+
         user = db.get_user(data['username'])[0]
 
         if user.password == data['password']:
@@ -70,13 +74,16 @@ def login_user():
                 app.config['SECRET_KEY'])
             logging.info("Create token :" +  token)
             return jsonify({'token': token})
-
-        return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
+        else:
+            return (jsonify({"error": "Bad password"}), 200)
     else:
         json_string = {"false": "Bad request json body "}
+        response = make_response(json_string,500,)
+        response.headers["Content-Type"] = "application/json"
+        return response
 
 
-#   GET http://localhost:5000/Cities?CityName=Paris
+#   GET http://localhost:5000/Cities?CityCode=PAR
 @app.route('/Cities', methods=['GET'])
 def GetCities():
     db = flights_db.sqlite_db()
@@ -188,16 +195,24 @@ def GetRandomFlights():
 #   GET http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=Denver&Date=2021-12-08
 @app.route('/Flights', methods=['GET'])
 def GetFlights():
+    flights = None
+    json_string = ''
     db = flights_db.sqlite_db()
     DepartureCity = "" if request.args.get('DepartureCity') is None else request.args.get('DepartureCity')
     ArrivalCity = "" if request.args.get('ArrivalCity') is None else request.args.get('ArrivalCity')
     FlightDate = "" if request.args.get('Date') is None else request.args.get('Date')
-    flights = db.get_flights(DepartureCity, ArrivalCity, FlightDate)
-    json_string = ''
+    try:
+        dt = datetime.datetime.strptime(FlightDate, '%Y-%m-%d')
+        flights = db.get_flights(DepartureCity, ArrivalCity, FlightDate)
+    except:
+        flights=-3
+
     if (flights == -1):
         json_string = {"error": "Invalid DepartureCity : {0} ".format(DepartureCity)}
     elif (flights == -2):
         json_string = {"error": "Invalid ArrivalCity : {0} ".format(ArrivalCity)}
+    elif (flights == -3):
+        json_string = {"error": "Invalid date format. Accepted format is  YYYY-MM-DD : {0} ".format(FlightDate)}
     else:
         json_string = json.dumps([ob.__dict__ for ob in flights])
     response = make_response(json_string,200,)
@@ -207,10 +222,17 @@ def GetFlights():
 #   GET http://localhost:5000/Flights/16939
 @app.route('/Flights/<flight_number>', methods=['GET'])
 def GetFlightByNumber(flight_number):
+    flight = None
     db = flights_db.sqlite_db()
-    flight = db.get_flight(flight_number)
+    if not flight_number.isnumeric():
+        flight = -2
+    else:
+        flight = db.get_flight(flight_number)
+
     if (flight == -1):
         json_string = {"error": "Unkown Flight  : {0} ".format(flight_number)}
+    elif flight == -2:
+        json_string = {"error": "Flight number must be numeric  : {0} ".format(flight_number)}
     else:
         json_string = json.dumps(flight.__dict__)
     response = make_response(json_string,200,)
@@ -293,11 +315,14 @@ def GetOrders():
 @app.route('/FlightOrders/<OrderNumber>', methods=['GET'])
 def GetOrder(OrderNumber):
     db = flights_db.sqlite_db()
-    orders = db.get_orders(OrderNumber, '')
-    if (len(orders)>0):
-        json_string = json.dumps(orders[0].__dict__)
-    else:
+    if not OrderNumber.isnumeric():
         json_string = {"error":"invalid order number {0}".format(OrderNumber)}
+    else:
+        orders = db.get_orders(OrderNumber, '')
+        if (len(orders)>0):
+            json_string = json.dumps(orders[0].__dict__)
+        else:
+            json_string = {"error": "Order not found {0}".format(OrderNumber)}
     response = make_response(json_string,200,)
     response.headers["Content-Type"] = "application/json"
     return response
@@ -395,6 +420,17 @@ def UpdateOrder(OrderNumber):
     db = flights_db.sqlite_db()
     if (request.is_json):
         data = request.get_json()
+        if (not 'DepartureDate' in data.keys()):
+            return (jsonify({"error": "Missing value DepartureDate"}), 200)
+        if (not 'CustomerName' in data.keys()):
+            return (jsonify({"error": "Missing value CustomerName"}), 200)
+        if (not 'FlightNumber' in data.keys()):
+            return (jsonify({"error": "Missing value FlightNumber"}), 200)
+        if (not 'NumberOfTickets' in data.keys()):
+            return (jsonify({"error": "Missing value NumberOfTickets"}), 200)
+        if (not 'Class' in data.keys()):
+            return (jsonify({"error": "Missing value Class"}), 200)
+
         DepartureDate = data['DepartureDate']
         if (not db.date_in_the_past(DepartureDate)):
             return (jsonify({"error": "Flight date cannot be in the past : {0} ".format(DepartureDate)}), 500)
@@ -412,9 +448,11 @@ def UpdateOrder(OrderNumber):
         elif (upd_order==-3):
             return (jsonify({"error": "No more seats available in flight  : {0} ".format(FlightNumber)}), 500)
         elif (upd_order == -4):
-            return (jsonify({"error": "Ordered tickets cannot be more than 10 ".format(FlightNumber)}), 500)
+            return (jsonify({"error": "Ordered tickets cannot be more than 10 {0} ".format(FlightNumber)}), 500)
         elif (upd_order == -5):
-            return (jsonify({"error": "Flight not available for departure date ".format(FlightNumber)}), 500)
+            return (jsonify({"error": "Flight not available for departure date {0}".format(FlightNumber)}), 500)
+        elif (upd_order == -10):
+            return (jsonify({"error": "Flight not found {0}".format(FlightNumber)}), 500)
         else:
             json_string = json.dumps(upd_order.__dict__)
             response = make_response(json_string, 200, )
