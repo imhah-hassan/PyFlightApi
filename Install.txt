@@ -1,0 +1,16 @@
+Installer python 3.11
+Exécuter
+    pip install -r requirement.txt
+Exécuter
+    python flight_rest.py
+
+FlightsApp Rest Api
+Listening on http://localhost:5000
+Sample request :  http://localhost:5000/Flights/10487
+ * Serving Flask app 'flight_rest'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.58:5000
+Press CTRL+C to quit
