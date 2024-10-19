@@ -1,0 +1,19 @@
+meta {
+  name: DeleteCity
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{url}}/Cities/CAS
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+assert {
+  res.body.CityName: contains Casablanca
+}

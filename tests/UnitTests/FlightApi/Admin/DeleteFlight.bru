@@ -1,0 +1,19 @@
+meta {
+  name: DeleteFlight
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{url}}/Flights/21010
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+assert {
+  res.body.FlightNumber: eq 21001
+}

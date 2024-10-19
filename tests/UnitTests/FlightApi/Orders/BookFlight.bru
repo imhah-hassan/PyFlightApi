@@ -1,0 +1,29 @@
+meta {
+  name: BookFlight
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{url}}/FlightOrders
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "DepartureDate": "2024-09-12",
+    "FlightNumber": {{FlightNumber}},
+    "CustomerName": "IMHAH",
+    "NumberOfTickets": 3,
+    "Class": "First"
+  }
+}
+
+vars:post-response {
+  OrderNumber: res.body.OrderNumber
+}
+
+assert {
+  res.body.OrderNumber: gt 81
+}

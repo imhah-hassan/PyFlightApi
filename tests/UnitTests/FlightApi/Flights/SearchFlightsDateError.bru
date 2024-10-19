@@ -1,0 +1,21 @@
+meta {
+  name: SearchFlightsDateError
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/Flights?DepartureCity=Paris&ArrivalCity=Denver&Date=$qlflsdkfhdsqsrzer
+  body: none
+  auth: none
+}
+
+params:query {
+  DepartureCity: Paris
+  ArrivalCity: Denver
+  Date: $qlflsdkfhdsqsrzer
+}
+
+assert {
+  res.body.error: contains Invalid date format
+}

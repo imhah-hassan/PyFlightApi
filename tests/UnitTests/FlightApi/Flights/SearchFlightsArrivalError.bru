@@ -1,0 +1,21 @@
+meta {
+  name: SearchFlightsArrivalError
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/Flights?DepartureCity=Paris&ArrivalCity=Casablanca&Date=2024-10-12
+  body: none
+  auth: none
+}
+
+params:query {
+  DepartureCity: Paris
+  ArrivalCity: Casablanca
+  Date: 2024-10-12
+}
+
+assert {
+  res.body.error: contains Invalid ArrivalCity
+}

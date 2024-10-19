@@ -1,0 +1,30 @@
+meta {
+  name: AddCity
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{url}}/Cities
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "CityInitials": "CMN",
+    "CityName": "Casablanca Mohamed V"
+  }
+}
+
+vars:post-response {
+  city: res.body.CityInitials
+}
+
+assert {
+  res.body.CityName: contains Casablanca
+}

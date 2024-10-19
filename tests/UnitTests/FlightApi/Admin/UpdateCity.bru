@@ -1,0 +1,26 @@
+meta {
+  name: UpdateCity
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{url}}/Cities/CMN
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "CityInitials": "CAS",
+    "CityName": "Casablanca Mohamed V"
+  }
+}
+
+assert {
+  res.body.CityName: contains Casablanca
+}

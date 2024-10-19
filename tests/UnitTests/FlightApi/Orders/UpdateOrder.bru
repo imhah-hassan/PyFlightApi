@@ -1,0 +1,25 @@
+meta {
+  name: UpdateOrder
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{url}}/FlightOrders/{{OrderNumber}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "DepartureDate": "2024-09-12",
+    "FlightNumber": 12365487,
+    "CustomerName": "IMHAH",
+    "NumberOfTickets": 3,
+    "Class": "First"
+  }
+}
+
+vars:post-response {
+  OrderNumber: res.body.OrderNumber
+}

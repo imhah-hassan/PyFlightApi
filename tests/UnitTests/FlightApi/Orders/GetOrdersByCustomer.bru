@@ -1,0 +1,23 @@
+meta {
+  name: GetOrdersByCustomer
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{url}}/FlightOrders?CustomerName=IMHAH
+  body: none
+  auth: none
+}
+
+params:query {
+  CustomerName: IMHAH
+}
+
+vars:post-response {
+  OrderNumber: res.body[0].OrderNumber
+}
+
+assert {
+  res.body[0].CustomerName: eq IMHAH
+}

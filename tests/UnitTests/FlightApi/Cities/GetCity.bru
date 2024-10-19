@@ -1,0 +1,19 @@
+meta {
+  name: GetCity
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/Cities?CityCode=PAR
+  body: none
+  auth: none
+}
+
+params:query {
+  CityCode: PAR
+}
+
+assert {
+  res.body[0].CityName: eq Paris
+}

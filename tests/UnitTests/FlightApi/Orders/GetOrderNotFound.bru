@@ -1,0 +1,15 @@
+meta {
+  name: GetOrderNotFound
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{url}}/FlightOrders/50
+  body: none
+  auth: none
+}
+
+assert {
+  res.body.error: contains Order not found
+}

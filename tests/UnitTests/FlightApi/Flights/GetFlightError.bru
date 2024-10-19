@@ -1,0 +1,15 @@
+meta {
+  name: GetFlightError
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{url}}/Flights/1235Dsffr
+  body: none
+  auth: none
+}
+
+assert {
+  res.body.error: contains Flight number must be numeric
+}

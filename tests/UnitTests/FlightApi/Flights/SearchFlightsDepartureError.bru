@@ -1,0 +1,21 @@
+meta {
+  name: SearchFlightsDepartureError
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{url}}/Flights?DepartureCity=Casablanca&ArrivalCity=London&Date=2024-10-12
+  body: none
+  auth: none
+}
+
+params:query {
+  DepartureCity: Casablanca
+  ArrivalCity: London
+  Date: 2024-10-12
+}
+
+assert {
+  res.body.error: contains Invalid DepartureCity
+}

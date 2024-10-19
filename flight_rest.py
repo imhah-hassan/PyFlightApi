@@ -109,7 +109,10 @@ def CreateCity(user):
         if (request.is_json):
             data = request.get_json()
             city = db.create_city(data['CityInitials'], data['CityName'])
-        json_string = json.dumps(city.__dict__)
+            if city == -1:
+                return (jsonify({"Warning": "City already exists : {0} ".format(data['CityName'])}), 202)
+            else:
+                json_string = json.dumps(city.__dict__)
     else:
         json_string = {"message": "Admin profil needed to create city"}
 

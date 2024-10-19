@@ -1,0 +1,15 @@
+meta {
+  name: GetFlight
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{url}}/Flights/10519
+  body: none
+  auth: none
+}
+
+assert {
+  res.body.FlightNumber: eq 10519
+}

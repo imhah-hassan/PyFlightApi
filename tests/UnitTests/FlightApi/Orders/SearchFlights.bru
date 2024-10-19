@@ -1,0 +1,25 @@
+meta {
+  name: SearchFlights
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2023-10-12
+  body: none
+  auth: none
+}
+
+params:query {
+  DepartureCity: Paris
+  ArrivalCity: London
+  Date: 2023-10-12
+}
+
+vars:post-response {
+  FlightNumber: res.body[0].FlightNumber
+}
+
+assert {
+  res.body[0].DepartureCity: eq Paris
+}

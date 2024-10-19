@@ -191,7 +191,7 @@ class   sqlite_db ():
         cities = self.get_city(city_initials)
         city = City()
         if (len(cities)>0):
-            return (cities [0])
+            return (-1)
         sql = 'INSERT INTO Cities (CityInitials, CityName) values (?, ?)'
         data = (city_initials, city_name)
         with self.con:
@@ -234,8 +234,10 @@ class   sqlite_db ():
     def create_flight (self, flight_data):
         sql = 'INSERT INTO Flights (Airline, Arrival, ArrivalInitials, ArrivalTime, Departure, DepartureInitials, DepartureTime, TicketPrice, TicketPriceFirst, TicketPriceBusiness, SeatsAvailable, DayOfWeek) '
         sql += ' values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-        data = (flight_data['Airline'], flight_data['ArrivalCity'], flight_data['ArrivalInitials'], flight_data['ArrivalTime'],
-                                        flight_data['DepartureCity'], flight_data['DepartureInitials'], flight_data['DepartureTime'],
+        data = (flight_data['Airline'], flight_data['ArrivalCity'], flight_data['ArrivalInitials'],
+                                        flight_data['ArrivalTime'],
+                                        flight_data['DepartureCity'], flight_data['DepartureInitials'],
+                                        flight_data['DepartureTime'],
                                         flight_data['Price'], flight_data['PriceFirst'], flight_data['PriceBusiness'],
                                         flight_data['SeatsAvailable'], flight_data['DayOfWeek'])
         with self.con:

@@ -1,0 +1,15 @@
+meta {
+  name: GetOrders
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/FlightOrders
+  body: none
+  auth: none
+}
+
+assert {
+  res.body[0].Class: eq Business
+}

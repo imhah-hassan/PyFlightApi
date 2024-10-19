@@ -1,0 +1,36 @@
+meta {
+  name: AddFlight
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{url}}/Flights
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+      "Airline": "AF",
+      "ArrivalCity": "London",
+      "ArrivalInitials":"LON",
+      "ArrivalTime": "10:30 AM",
+      "DepartureCity": "Paris",
+      "DepartureTime": "08:00 AM",
+      "DepartureInitials": "PAR",
+      "Price": 200,
+      "PriceFirst": 250,
+      "PriceBusiness": 300,
+      "SeatsAvailable": 255,
+      "DayOfWeek": "Thursday"
+  }
+}
+
+assert {
+  res.body.FlightNumber: gte 21000
+}

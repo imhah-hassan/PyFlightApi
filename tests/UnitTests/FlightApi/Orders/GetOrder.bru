@@ -1,0 +1,19 @@
+meta {
+  name: GetOrder
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{url}}/FlightOrders/{{OrderNumber}}
+  body: none
+  auth: none
+}
+
+vars:post-response {
+  FlightNumber: res.body.FlightNumber
+}
+
+assert {
+  res.body.CustomerName: eq IMHAH
+}
