@@ -8,3 +8,4 @@ copy config.py %dest%
 mkdir %dest%\db
 copy db\Flights.s3db %dest%\db
 copy requirements.txt %dest%
+copy install.txt %dest%
