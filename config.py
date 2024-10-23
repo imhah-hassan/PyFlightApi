@@ -1,3 +1,5 @@
+#!C:\Apps\Python311 python
+# encoding: utf8
 import configparser
 cfg = configparser.ConfigParser()
 cfg.read('flightapi.ini')

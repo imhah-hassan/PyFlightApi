@@ -1,3 +1,5 @@
+#!C:\Apps\Python311 python
+# encoding: utf8
 import sys
 import traceback
 import sqlite3 as sl
